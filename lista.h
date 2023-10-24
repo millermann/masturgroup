@@ -50,9 +50,10 @@ void reset_lista(lista_pedidos *lista)
     lista->aux = lista->acceso;
 }
 
-void insert_lista(lista_pedidos *lista) //falta comproboar algo con la profe
+void insert_lista(lista_pedidos *lista, pedido pedido_ing) //falta comproboar algo con la profe
 {
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
+    copy_pedido(&nuevo_nodo->vipd, pedido_ing);
 
     if (isEmpty(*lista) == 1 && isOos(*lista) == 1)
     {
@@ -77,7 +78,7 @@ void insert_lista(lista_pedidos *lista) //falta comproboar algo con la profe
 
 pedido *copy_lista(lista_pedidos lista) // no funca y no estoy seguro de como se hace
 {
-    return aux_ped->vipd;
+    return &lista.cur->vipd;
 }
 
 void supress_lista(lista_pedidos *lista)

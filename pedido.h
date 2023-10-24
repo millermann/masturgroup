@@ -20,11 +20,11 @@ typedef struct{
     float subtotal;     //total de todo lo q se vendio - el descuento
     int consum_local;   //1=si 0=no
     float total;        //subtotal + imp de consum local
-    fecha fec_compra;
+    fecha fec_compra;   //no es un tda, se puede usar sin getters/setters en el main (dia, mes, anio)
     int entregado;      //1-si, 0-no
 }pedido;
 
-void init_pedido(pedido *ped_ing) // hay q usar los setters dentro del init??
+void init_pedido(pedido *ped_ing) // hay q usar los setters dentro del init, corregir
 {
     int i;
     strcpy(ped_ing->nomb, "DEFAULT");
@@ -57,6 +57,13 @@ char *get_ape(pedido ped_ing)
     return aux;
 }
     // es necesaria funcion get del nombre completo??
+char *get_pedido_id(pedido ped_ing)
+{
+    char *aux = (char*)malloc(sizeof(char)*strsize);
+    strcpy(aux, ped_ing.pedido_id);
+    return aux;
+}
+
 int get_vend_id(pedido ped_ing)
 {
     return ped_ing.vend_id;
@@ -147,7 +154,7 @@ void set_total(pedido *ped_ing, float total_ing)
 {
     ped_ing->total = total_ing;
 }
-    // puede ser util un get fecha completa
+    // puede ser util un get/set fecha completa
 void set_fec_compra_dia(pedido *ped_ing, int dia_ing)
 {
     ped_ing->fec_compra.dia = dia_ing;
@@ -166,5 +173,23 @@ void set_fec_compra_anio(pedido *ped_ing, int anio_ing)
 void set_entregado(pedido *ped_ing, int entregado_ing)
 {
     ped_ing->entregado = entregado_ing;
+}
+
+void copy_pedido(pedido *ped1, pedido ped2)
+{
+    int i;
+    set_nombre(ped1, get_nomb(ped2), get_ape(ped2));
+    ped1->vend_id = ped2.vend_id;
+    set_pedido_id(ped1, get_pedido_id(ped2));
+    ped1->vend_id = ped2.vend_id;
+    for(i=1; i<=10; i++) {ped1->comb_pedidos[i] = ped2.comb_pedidos[i];}
+    ped1->forma_pago = ped2.forma_pago;
+    ped1->subtotal = ped2.subtotal;
+    ped1->consum_local = ped2.consum_local;
+    ped1->total = ped2.total;
+    ped1->fec_compra.dia = ped2.fec_compra.dia;
+    ped1->fec_compra.mes = ped2.fec_compra.mes;
+    ped1->fec_compra.anio = ped2.fec_compra.anio;
+    ped1->entregado = ped2.entregado;
 }
 #endif // PEDIDO_H_INCLUDED
