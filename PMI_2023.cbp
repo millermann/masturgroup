@@ -31,9 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="combo.h" />
+		<Unit filename="lista.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="pedido.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
