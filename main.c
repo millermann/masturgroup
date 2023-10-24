@@ -17,7 +17,8 @@ int main()
     printf(" pedido x1: %s %s", get_nomb(x1), get_ape(x1));
 
     insert_lista(&pedidos, x1);
-
+    forward_lista(&pedidos);
+    insert_lista(&pedidos, x1);
     printf("\n dentro de la lista: %s %s", get_nomb(*copy_lista(pedidos)), get_ape(*copy_lista(pedidos)));
 
 

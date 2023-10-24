@@ -6,7 +6,7 @@
 #define strsize 25
 #define num_combos 10
 
-int vend_id_glob = 777; // ira main.c o aca?
+int vend_id_glob = 777;
 
 typedef struct {int dia; int mes; int anio;} fecha;
 
@@ -16,12 +16,12 @@ typedef struct{
     char pedido_id[strsize];
     int vend_id;
     int comb_pedidos[num_combos];
-    int forma_pago;     // 1-deb, 2-cred, 3-QR, 4-efec
-    float subtotal;     //total de todo lo q se vendio - el descuento
-    int consum_local;   //1=si 0=no
-    float total;        //subtotal + imp de consum local
-    fecha fec_compra;   //no es un tda, se puede usar sin getters/setters en el main (dia, mes, anio)
-    int entregado;      //1-si, 0-no
+    int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
+    float subtotal;             //total de todo lo q se vendio - el descuento
+    int consum_local;           //1=si 0=no
+    float total;                //subtotal + imp de consum local
+    fecha fec_compra;           //no es un tda, se puede usar sin getters/setters en el main (dia, mes, anio)
+    int entregado;              //1-si, 0-no
 }pedido;
 
 void init_pedido(pedido *ped_ing) // hay q usar los setters dentro del init, corregir
@@ -175,14 +175,14 @@ void set_entregado(pedido *ped_ing, int entregado_ing)
     ped_ing->entregado = entregado_ing;
 }
 
-void copy_pedido(pedido *ped1, pedido ped2)
+void copy_pedido(pedido *ped1, pedido ped2) // fun. adic.
 {
     int i;
     set_nombre(ped1, get_nomb(ped2), get_ape(ped2));
     ped1->vend_id = ped2.vend_id;
     set_pedido_id(ped1, get_pedido_id(ped2));
     ped1->vend_id = ped2.vend_id;
-    for(i=1; i<=10; i++) {ped1->comb_pedidos[i] = ped2.comb_pedidos[i];}
+    for(i=1; i<=num_combos; i++) {ped1->comb_pedidos[i] = ped2.comb_pedidos[i];}
     ped1->forma_pago = ped2.forma_pago;
     ped1->subtotal = ped2.subtotal;
     ped1->consum_local = ped2.consum_local;

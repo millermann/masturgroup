@@ -50,7 +50,7 @@ void reset_lista(lista_pedidos *lista)
     lista->aux = lista->acceso;
 }
 
-void insert_lista(lista_pedidos *lista, pedido pedido_ing) //falta comproboar algo con la profe
+void insert_lista(lista_pedidos *lista, pedido pedido_ing)
 {
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
     copy_pedido(&nuevo_nodo->vipd, pedido_ing);
@@ -76,7 +76,7 @@ void insert_lista(lista_pedidos *lista, pedido pedido_ing) //falta comproboar al
     }
 }
 
-pedido *copy_lista(lista_pedidos lista) // no funca y no estoy seguro de como se hace
+pedido *copy_lista(lista_pedidos lista)
 {
     return &lista.cur->vipd;
 }
@@ -100,8 +100,8 @@ void supress_lista(lista_pedidos *lista)
 
 void forward_lista(lista_pedidos *lista)
 {
-    lista->aux->next = lista->cur;
-    lista->cur = lista->cur->next;
+    lista->aux = lista->cur;
+    lista->cur = lista->aux->next;
 }
 
 #endif // LISTA_H_INCLUDED
