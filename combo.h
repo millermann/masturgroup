@@ -3,65 +3,68 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <malloc.h>
 
-typedef struct
-{
+#define descrip_size 30
+
+typedef struct{
     int id_combo;
-    char Descripcion[30];
+    char descripcion[descrip_size];
     int stock;
-    float PrecioU;
+    float preciounit;
     int descuento;
-} Combo;
+} combo;
 
-void cargaID(Combo *c,int ide)
+void cargaid(combo *comb_ing, int ide)
 {
-    (*c).id_combo=ide;
+    (*comb_ing).id_combo=ide;
 }
 
-int muestraid(Combo c)
+int muestraid(combo comb_ing)
 {
-    return c.id_combo;
+    return comb_ing.id_combo;
 }
 
-void cargadescrip(Combo *c,char descr[])
+void cargadescripcion(combo *comb_ing, char descr[])
 {
-    strcpy((*c).Descripcion,descr);
+    strcpy((*comb_ing).descripcion, descr);
 }
 
-char *muestradescr(Combo c)
+char *muestradescripcion(combo comb_ing)
 {
-    return c.Descripcion;
+    char *aux = (char*)malloc(sizeof(char)*descrip_size);
+    strcpy(aux, comb_ing.descripcion);
+    return aux;
 }
 
-void cargastock(Combo *c,int Stock)
+void cargastock(combo *comb_ing, int Stock)
 {
-    (*c).stock=Stock;
+    (*comb_ing).stock=Stock;
 }
 
-int muestrastock(Combo c)
+int muestrastock(combo comb_ing)
 {
-    return c.stock;
+    return comb_ing.stock;
 }
 
-void cargaprecio(Combo *c,float prec)
+void cargaprecio(combo *comb_ing, float prec)
 {
-    (*c).PrecioU=prec;
+    (*comb_ing).preciounit=prec;
 }
 
-float muestraprec(Combo c)
+float muestraprecio(combo comb_ing)
 {
-    return c.PrecioU;
+    return comb_ing.preciounit;
 }
 
-void cargaprecio(Combo *c,int desc)
+void cargadescuento(combo *comb_ing, int desc)
 {
-    (*c).descuento=desc;
+    (*comb_ing).descuento = desc;
 }
 
-int muestraprec(Combo c)
+int muestradescuento(combo comb_ing)
 {
-    return c.descuento;
+    return comb_ing.descuento;
 }
 
 #endif // COMBO_H_INCLUDE

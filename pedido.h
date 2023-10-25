@@ -6,7 +6,7 @@
 #define strsize 25
 #define num_combos 10
 
-int vend_id_glob = 777;
+int vend_id_glob = 777; //no va aca
 
 typedef struct {int dia; int mes; int anio;} fecha;
 
@@ -182,7 +182,7 @@ void copy_pedido(pedido *ped1, pedido ped2) // fun. adic.
     ped1->vend_id = ped2.vend_id;
     set_pedido_id(ped1, get_pedido_id(ped2));
     ped1->vend_id = ped2.vend_id;
-    for(i=1; i<=num_combos; i++) {ped1->comb_pedidos[i] = ped2.comb_pedidos[i];}
+    for(i=0; i<=num_combos; i++) {ped1->comb_pedidos[i] = ped2.comb_pedidos[i];}
     ped1->forma_pago = ped2.forma_pago;
     ped1->subtotal = ped2.subtotal;
     ped1->consum_local = ped2.consum_local;

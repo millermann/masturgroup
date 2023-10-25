@@ -1,26 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "combo.h"
 #include "pedido.h"
 #include "lista.h"
 
+int var_glob_vend_id;
+
+void cargar_pedido(pedido *ped_ing)
+{
+    char str_ing1[strsize], str_ing2[strsize];
+
+    printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
+    printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
+    set_nombre(ped_ing, str_ing1, str_ing2);
+    //generar un string aleatorio para pedido_id
+    set_vend_id(ped_ing, var_glob_vend_id);
+    
+
+}
 
 int main()
 {
-    pedido x1;
-    char str1[25], str2[25];
-    lista_pedidos pedidos;
-    init_lista(&pedidos);
-
-    scanf("%s %s", &str1, &str2);
-    set_nombre(&x1, str1, str2);
-    printf(" pedido x1: %s %s", get_nomb(x1), get_ape(x1));
-
-    insert_lista(&pedidos, x1);
-    forward_lista(&pedidos);
-    insert_lista(&pedidos, x1);
-    printf("\n dentro de la lista: %s %s", get_nomb(*copy_lista(pedidos)), get_ape(*copy_lista(pedidos)));
-
-
+    
+    printf("\n sapeeee");
     return 0;
 }
