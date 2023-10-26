@@ -4,7 +4,8 @@
 #include <string.h>
 
 #define strsize 25
-#define num_combos 10
+#define num_combos 9
+#define costo_delivery 500
 
 int vend_id_glob = 777; //no va aca
 
@@ -16,10 +17,10 @@ typedef struct{
     char pedido_id[strsize];
     int vend_id;
     int comb_pedidos[num_combos];
-    int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
-    float subtotal;             //total de todo lo q se vendio - el descuento
     int consum_local;           //1=si 0=no
-    float total;                //subtotal + imp de consum local
+    float subtotal;             //total precio*unidad - el descuento
+    int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
+    float total;                //subtotal + imp de delivery
     fecha fec_compra;           //no es un tda, se puede usar sin getters/setters en el main (dia, mes, anio)
     int entregado;              //1-si, 0-no
 }pedido;
@@ -71,7 +72,9 @@ int get_vend_id(pedido ped_ing)
 
 int *get_comb_pedidos(pedido ped_ing)
 {
-    return ped_ing.comb_pedidos; //se necesita un aux como con los char?
+    int *aux = (int*)malloc(sizeof(int)*num_combos);
+    memcpy(aux, ped_ing.comb_pedidos, sizeof(int)*num_combos); // clona arrays
+    return aux;
 }
 
 int get_forma_pago(pedido ped_ing)

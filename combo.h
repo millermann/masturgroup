@@ -4,9 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 #include <malloc.h>
+#include "pedido.h"
 
 #define descrip_size 30
-
+#define val_descuento 15
 typedef struct{
     int id_combo;
     char descripcion[descrip_size];
@@ -47,6 +48,11 @@ int muestrastock(combo comb_ing)
     return comb_ing.stock;
 }
 
+int get_combo_stock(combo combos[], int id_combo)
+{
+    return combos[id_combo].stock;
+}
+
 void cargaprecio(combo *comb_ing, float prec)
 {
     (*comb_ing).preciounit=prec;
@@ -67,4 +73,20 @@ int muestradescuento(combo comb_ing)
     return comb_ing.descuento;
 }
 
+float calcular_subtotal_combos(combo combos_ing[], int comb_pedidos[], int cupon_descuento)
+{
+    int i; float monto_indiv=0, suma_total=0;
+
+    for (i=0; i<=num_combos; i++)
+    {
+        monto_indiv = ((combos_ing[i].preciounit) * (comb_pedidos[i]));
+        if (cupon_descuento == 1){
+            if (combos_ing[i].descuento == 1){
+                monto_indiv = ((val_descuento+monto_indiv)/100);
+            }
+        }
+        suma_total += monto_indiv;
+    }
+    return suma_total;
+}
 #endif // COMBO_H_INCLUDE

@@ -50,10 +50,35 @@ void reset_lista(lista_pedidos *lista)
     lista->aux = lista->acceso;
 }
 
-void insert_lista(lista_pedidos *lista, pedido pedido_ing)
+void insert_listaypedido(lista_pedidos *lista, pedido pedido_ing) // no se cual es el adecuado
 {
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
     copy_pedido(&nuevo_nodo->vipd, pedido_ing);
+
+    if (isEmpty(*lista) == 1 && isOos(*lista) == 1)
+    {
+        lista->acceso = nuevo_nodo;
+        lista->cur = nuevo_nodo;
+    }
+    else
+    {
+        if (isOos(*lista) == 1)
+        {
+            lista->aux->next = nuevo_nodo;
+            lista->cur = nuevo_nodo;
+        }
+        else
+        {
+            lista->aux->next = nuevo_nodo;
+            nuevo_nodo->next = lista->cur;
+            lista->cur = nuevo_nodo;
+        }
+    }
+}
+
+void insert_lista(lista_pedidos *lista)
+{
+    nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
 
     if (isEmpty(*lista) == 1 && isOos(*lista) == 1)
     {
