@@ -1,0 +1,59 @@
+0
+Un balde de papas fritas
+10
+1200
+0
+---
+1
+Nuggets x 6
+20
+1050
+0
+---
+2
+Una hamburguesa simple con queso, papas fritas y un vaso de gaseosa. Tamaño pequeño
+100
+1500
+0
+---
+3
+Una hamburguesa doble con cheddar, papas fritas y un vaso de gaseosa. Tamaño XL
+15
+2800
+0
+---
+4
+Dos hamburguesas doble queso, lechuga, tomate, 2 papas fritas. Tamaño regular
+50
+5000
+0
+---
+5
+Un vaso de gaseosa de 350 ml o botella descartable
+100
+1200
+1
+---
+6
+Una cajita feliz con juguete y postre
+30
+2500
+1
+---
+7
+Una hamburguesa mounstruo, triple carne, cheddar, tocino y balde de papas. Una Gaseosa tamaño XL
+10
+4500
+1
+---
+8
+Una hamburguesa veggi, papas fritas y vaso de gaseosa. Tamaño regular
+5
+4200
+1
+---
+9
+Una hamburguesa con cebolla y vaso de gaseosa. Tamaño regular
+10
+2000
+0

@@ -6,7 +6,7 @@
 #include <malloc.h>
 #include "pedido.h"
 
-#define descrip_size 30
+#define descrip_size 100
 #define val_descuento 15
 typedef struct{
     int id_combo;
@@ -75,14 +75,16 @@ int muestradescuento(combo comb_ing)
 
 float calcular_subtotal_combos(combo combos_ing[], int comb_pedidos[], int cupon_descuento)
 {
-    int i; float monto_indiv=0, suma_total=0;
+    int i; float monto_indiv, suma_total=0;
 
-    for (i=0; i<=num_combos; i++)
+    for (i=0; i<num_combos; i++)
     {
+        monto_indiv = 0;
+
         monto_indiv = ((combos_ing[i].preciounit) * (comb_pedidos[i]));
         if (cupon_descuento == 1){
             if (combos_ing[i].descuento == 1){
-                monto_indiv = ((val_descuento+monto_indiv)/100);
+                monto_indiv -= ((val_descuento*monto_indiv)/100);
             }
         }
         suma_total += monto_indiv;

@@ -4,7 +4,7 @@
 #include <string.h>
 
 #define strsize 25
-#define num_combos 9
+#define num_combos 10
 #define costo_delivery 500
 
 int vend_id_glob = 777; //no va aca
@@ -25,7 +25,7 @@ typedef struct{
     int entregado;              //1-si, 0-no
 }pedido;
 
-void init_pedido(pedido *ped_ing) // hay q usar los setters dentro del init, corregir
+void init_pedido(pedido *ped_ing)
 {
     int i;
     strcpy(ped_ing->nomb, "DEFAULT");
@@ -33,8 +33,10 @@ void init_pedido(pedido *ped_ing) // hay q usar los setters dentro del init, cor
     strcpy(ped_ing->pedido_id, "DEFAULT");
     ped_ing->vend_id = vend_id_glob;
 
-    for (i=0; i<=num_combos; i++) ped_ing->comb_pedidos[i] = 0;
-
+    for (i=0; i<=num_combos; i++) //por alguna extraña razon cuando num_comb = 9 siempre comb_pedidos[9]==1
+    {
+        ped_ing->comb_pedidos[i] = 0;
+    }
     ped_ing->subtotal = 0;
     ped_ing->consum_local = 1;
     ped_ing->total = 0;
