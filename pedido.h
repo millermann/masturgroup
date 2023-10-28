@@ -2,8 +2,10 @@
 #define PEDIDO_H_INCLUDED
 
 #include <string.h>
+#include <time.h>
 
 #define strsize 25
+#define idsize 7
 #define num_combos 10
 #define costo_delivery 500
 
@@ -14,10 +16,11 @@ typedef struct {int dia; int mes; int anio;} fecha;
 typedef struct{
     char nomb[strsize];
     char ape[strsize];
-    char pedido_id[strsize];
+    char pedido_id[idsize];
     int vend_id;
     int comb_pedidos[num_combos];
     int consum_local;           //1=si 0=no
+    int cup_descuento;          //1=si
     float subtotal;             //total precio*unidad - el descuento
     int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
     float total;                //subtotal + imp de delivery
@@ -39,6 +42,7 @@ void init_pedido(pedido *ped_ing)
     }
     ped_ing->subtotal = 0;
     ped_ing->consum_local = 1;
+    ped_ing->cup_descuento = 0;
     ped_ing->total = 0;
     ped_ing->fec_compra.dia = 0;
     ped_ing->fec_compra.mes = 0;
@@ -92,6 +96,11 @@ float get_subtotal(pedido ped_ing)
 int get_consum_local(pedido ped_ing)
 {
     return ped_ing.consum_local;
+}
+
+int get_cup_descuento(pedido ped_ing)
+{
+    return ped_ing.cup_descuento;
 }
 
 float get_total(pedido ped_ing)
@@ -150,6 +159,11 @@ void set_subtotal(pedido *ped_ing, float subtotal_ing)
     ped_ing->subtotal = subtotal_ing;
 }
 
+void set_cup_descuento(pedido *ped_ing, int cup_ing)
+{
+    ped_ing->cup_descuento = cup_ing;
+}
+
 void set_consum_local(pedido *ped_ing, int consum_local_ing)
 {
     ped_ing->consum_local = consum_local_ing;
@@ -191,10 +205,34 @@ void copy_pedido(pedido *ped1, pedido ped2) // fun. adic.
     ped1->forma_pago = ped2.forma_pago;
     ped1->subtotal = ped2.subtotal;
     ped1->consum_local = ped2.consum_local;
+    ped1->cup_descuento = ped2.cup_descuento;
     ped1->total = ped2.total;
     ped1->fec_compra.dia = ped2.fec_compra.dia;
     ped1->fec_compra.mes = ped2.fec_compra.mes;
     ped1->fec_compra.anio = ped2.fec_compra.anio;
     ped1->entregado = ped2.entregado;
 }
+
+char *gen_pedido_id(void)
+{
+    int i, min_val=48, max_val=57; // numeros entre 48==0 y 90==Z
+    char id_gen[idsize];
+    char *aux = (char*)malloc(sizeof(char)*idsize);
+
+    srand(time(0));
+
+    for (i=0; i<=idsize; i=i+2)
+    {
+        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
+    }
+    min_val=65, max_val=90;
+    for (i=1; i<=idsize; i=i+2)
+    {
+        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
+    }
+    id_gen[idsize]='\0';
+    strcpy(aux, id_gen);
+    return aux;
+}
+
 #endif // PEDIDO_H_INCLUDED

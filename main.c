@@ -7,36 +7,52 @@
 
 int var_glob_vend_id;
 
+void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
+void precarga_combos(combo combos_del_dia[]);
+void mostrar_pedido(pedido ped_ing);
+
 int main()
 {
     lista_pedidos pedidos; combo combos_del_dia[num_combos];
+    mod_vend_id(1);
     precarga_combos(combos_del_dia);
 
     init_lista(&pedidos);
     insert_lista(&pedidos);
-
     cargar_pedido(copy_lista(pedidos), combos_del_dia);
-    printf("\n sapeeee");
+    mostrar_pedido(*copy_lista(pedidos));
+
     return 0;
 }
 
-void cargar_pedido(pedido *ped_ing, combo combos_ing[])
+int buscar_x_idped(lista_pedidos *lista_ing, char id[]) // no se si anda
+{
+    reset_lista(lista_ing);
+    while(isOos(*lista_ing)!=1)
+    {
+        if(strcmp(get_pedido_id(*copy_lista(*lista_ing)), id) == 0){
+            return 1;
+        }
+        else forward_lista(lista_ing);
+    }
+    return 0;
+}
+
+void cargar_pedido(pedido *ped_ing, combo combos_ing[]) // a
 {
     pedido pre_carga;
     init_pedido(&pre_carga);
-    int pedido_confirm=-1, i;
+    int pedido_confirm=-1;
 
     while (pedido_confirm != 1)
     {
-        int num_ing1, num_ing2, salir_iter=-1, i; float monto;
+        int num_ing1, num_ing2, salir_iter=-1; float monto;
         char str_ing1[strsize], str_ing2[strsize];
 
         printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
         printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
         set_nombre(&pre_carga, str_ing1, str_ing2);
-
-        // falta generar un string aleatorio para pedido_id
-
+        set_pedido_id(&pre_carga, gen_pedido_id());
         set_vend_id(&pre_carga, var_glob_vend_id);
         printf("\n - Ingreso combos: ");
         // deberiamos hacer una tabla con el id del combo y respectivo stock
@@ -69,7 +85,9 @@ void cargar_pedido(pedido *ped_ing, combo combos_ing[])
         set_entregado(&pre_carga, num_ing1);
 
         printf("\n - Posee cupon de descuento? (1=si / 0=no): "); scanf("%d", &num_ing1);
-        monto = calcular_subtotal_combos(combos_ing, get_comb_pedidos(pre_carga), num_ing1);
+        set_cup_descuento(&pre_carga, num_ing1);
+
+        monto = calcular_subtotal_combos(combos_ing, get_comb_pedidos(pre_carga), get_cup_descuento(pre_carga));
 
         set_subtotal(&pre_carga, monto);
 
@@ -92,7 +110,7 @@ void cargar_pedido(pedido *ped_ing, combo combos_ing[])
 void precarga_combos(combo combos_del_dia[])
 {
     FILE *archivo_combos = fopen("menu.txt", "r");
-    int i, id_combo_scan;
+    int id_combo_scan;
     char separador[4];
 
     while(feof(archivo_combos) == 0)
@@ -108,4 +126,65 @@ void precarga_combos(combo combos_del_dia[])
 
     fclose(archivo_combos);
 }
+
+int mod_vend_id(int accion) // 1=cargar, 2=sobrescrib.
+{
+    switch(accion)
+    {
+        case 1:{
+            FILE *fp = fopen("vend_id.txt", "r");
+            if (fp == NULL) return 1;
+            else fscanf(fp, "%d", &var_glob_vend_id);
+            fclose(fp);
+            break;
+        }
+        case 2:{
+            FILE *fp = fopen("vend_id.txt", "w");
+            if (fp == NULL) return 1;
+            else fprintf(fp, "%d", var_glob_vend_id);
+            fclose(fp);
+        }
+    }
+    return 0;
+}
+
+void mostrar_pedido(pedido ped_ing)
+{
+    printf("\n + Pedido ID: %s", get_pedido_id(ped_ing));
+    printf("\n\t + Fecha de compra: %d/%d/%d", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
+    printf("\n\t + Nombre: %s %s", get_nomb(ped_ing), get_ape(ped_ing));
+    printf("\n\t + Vendedor ID: %d", get_vend_id(ped_ing));
+    //mostrar comb pedidos
+
+    printf("\n\t + Consume en el local: ");
+    if(get_consum_local(ped_ing) == 1) printf("si");
+    else printf("no");
+
+    printf("\n\t + Cupon de descuento: ");
+    if(get_cup_descuento(ped_ing) == 1) printf("si");
+    else printf("no");
+
+    printf("\n\t + Metodo de pago: ");
+    switch(get_forma_pago(ped_ing))
+    {
+        case 1:{
+            printf("Debito."); break;
+        }
+        case 2:{
+            printf("Credito."); break;
+        }
+        case 3:{
+            printf("QR."); break;
+        }
+        case 4:{
+            printf("Efectivo."); break;
+        }
+    }
+    printf("\n -------------------------");
+    printf("\n + Subtotal: %.2f", get_subtotal(ped_ing));
+    if (get_consum_local(ped_ing) == 0) printf("\n + Costo Delivery: %d", costo_delivery);
+    printf("\n -------------------------");
+    printf("\n - Total: %.2f", get_total(ped_ing));
+}
+
 

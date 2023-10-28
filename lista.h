@@ -6,7 +6,7 @@
 
 //todavia no se si andan
 
-typedef struct nod{
+struct nod{
     pedido vipd;
     struct nod *next;
 };
