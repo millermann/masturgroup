@@ -9,8 +9,6 @@
 #define num_combos 10
 #define costo_delivery 500
 
-int vend_id_glob = 777; //no va aca
-
 typedef struct {int dia; int mes; int anio;} fecha;
 
 typedef struct{
@@ -34,9 +32,9 @@ void init_pedido(pedido *ped_ing)
     strcpy(ped_ing->nomb, "DEFAULT");
     strcpy(ped_ing->ape, "DEFAULT");
     strcpy(ped_ing->pedido_id, "DEFAULT");
-    ped_ing->vend_id = vend_id_glob;
+    ped_ing->vend_id = 0;
 
-    for (i=0; i<=num_combos; i++) //por alguna extraña razon cuando num_comb = 9 siempre comb_pedidos[9]==1
+    for (i=0; i<=num_combos; i++) //por alguna extraÃ±a razon cuando num_comb = 9 siempre comb_pedidos[9]==1
     {
         ped_ing->comb_pedidos[i] = 0;
     }
@@ -139,11 +137,6 @@ void set_pedido_id(pedido *ped_ing, char pedido_id_ing[])
     strcpy(ped_ing->pedido_id, pedido_id_ing);
 }
 
-void set_vend_id(pedido *ped_ing, int vend_id_ing) //    necesaria?
-{
-    ped_ing->vend_id = vend_id_ing;
-}
-
 void set_comb_pedidos(pedido *ped_ing, int tipo_combo, int cant_ing)
 {
     ped_ing->comb_pedidos[tipo_combo] = cant_ing;
@@ -177,6 +170,11 @@ void set_total(pedido *ped_ing, float total_ing)
 void set_fec_compra_dia(pedido *ped_ing, int dia_ing)
 {
     ped_ing->fec_compra.dia = dia_ing;
+}
+
+void set_vend_id(pedido *ped_ing, int vend_id_ing)
+{
+    ped_ing->vend_id = vend_id_ing;
 }
 
 void set_fec_compra_mes(pedido *ped_ing, int mes_ing)
