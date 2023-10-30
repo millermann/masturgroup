@@ -49,7 +49,7 @@ int main()
 
                 while (seguir != 0)
                 {
-                    insert_lista(&pedidos);
+                    insert_lista(&pedidos);  // error en el 2do pedido // corregir la funcion
                     system("cls");
                     cargar_pedido(copy_lista(pedidos), combos_del_dia);
                     printf("\n - Desea seguir ingresando pedidos (1=si, 0=no): ");
