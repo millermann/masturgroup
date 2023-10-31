@@ -12,16 +12,16 @@
 typedef struct {int dia; int mes; int anio;} fecha;
 
 typedef struct{
-    char nomb[strsize];
-    char ape[strsize];
     char pedido_id[idsize];
     int vend_id;
+    char nomb[strsize];
+    char ape[strsize];
     int comb_pedidos[num_combos];
     int consum_local;           //1=si 0=no
     int cup_descuento;          //1=si
     float subtotal;             //total precio*unidad - el descuento
-    int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
     float total;                //subtotal + imp de delivery
+    int forma_pago;             // 1-deb, 2-cred, 3-QR, 4-efec
     fecha fec_compra;           //no es un tda, se puede usar sin getters/setters en el main (dia, mes, anio)
     int entregado;              //1-si, 0-no
 }pedido;

@@ -55,73 +55,59 @@ void insert_listaypedido(lista_pedidos *lista, pedido pedido_ing) // no se cual 
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
     copy_pedido(&nuevo_nodo->vipd, pedido_ing);
 
-    if (isEmpty(*lista) == 1 && isOos(*lista) == 1)
-    {
+    if (lista->acceso == lista->cur){
         lista->acceso = nuevo_nodo;
+        nuevo_nodo->next = lista->cur;
+        lista->cur = lista->acceso;
+    }
+    else{
+        lista->aux->next = nuevo_nodo;
+        nuevo_nodo->next = lista->cur;
         lista->cur = nuevo_nodo;
     }
-    else
-    {
-        if (isOos(*lista) == 1)
-        {
-            lista->aux->next = nuevo_nodo;
-            lista->cur = nuevo_nodo;
-        }
-        else
-        {
-            lista->aux->next = nuevo_nodo;
-            nuevo_nodo->next = lista->cur;
-            lista->cur = nuevo_nodo;
-        }
-    }
 }
+
+
 
 void insert_lista(lista_pedidos *lista)
 {
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
 
-    if (isEmpty(*lista) == 1 && isOos(*lista) == 1)
-    {
+    if (lista->acceso == lista->cur){
         lista->acceso = nuevo_nodo;
+        nuevo_nodo->next = lista->cur;
+        lista->cur = lista->acceso;
+    }
+    else{
+        lista->aux->next = nuevo_nodo;
+        nuevo_nodo->next = lista->cur;
         lista->cur = nuevo_nodo;
     }
-    else
-    {
-        if (isOos(*lista) == 1)
-        {
-            lista->aux->next = nuevo_nodo;
-            lista->cur = nuevo_nodo;
-        }
-        else
-        {
-            lista->aux->next = nuevo_nodo;
-            nuevo_nodo->next = lista->cur;
-            lista->cur = nuevo_nodo;
-        }
-    }
 }
+
 
 pedido *copy_lista(lista_pedidos lista)
 {
     return &lista.cur->vipd;
 }
 
-void supress_lista(lista_pedidos *lista)
+void supress_lista(lista_pedidos *lista) //no funciona bien cuando se borra el 1er elem de la lista
 {
     if (lista->acceso == lista->cur) //equiv a aux == NULL
     {
+        lista->acceso->next = lista->cur->next;
         free((void*)lista->cur);
-        free((void*)lista->acceso);
-        lista->cur = NULL;
-        lista->acceso = NULL;
+        lista->cur = lista->acceso;
+        lista->aux = lista->acceso;
     }
     else
     {
         lista->aux->next = lista->cur->next;
         free((void*)lista->cur);
-        lista->cur = lista->aux->next;
+        lista->cur = lista->cur->next;
     }
 }
+
 
 void forward_lista(lista_pedidos *lista)
 {
