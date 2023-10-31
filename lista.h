@@ -59,25 +59,7 @@ void insert_listaypedido(lista_pedidos *lista, pedido pedido_ing) // no se cual 
         lista->acceso = nuevo_nodo;
         nuevo_nodo->next = lista->cur;
         lista->cur = lista->acceso;
-    }
-    else{
-        lista->aux->next = nuevo_nodo;
-        nuevo_nodo->next = lista->cur;
-        lista->cur = nuevo_nodo;
-    }
-}
-
-
-
-void insert_lista(lista_pedidos *lista)
-{
-    nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
-
-    if (lista->acceso == lista->cur){
-        lista->acceso = nuevo_nodo;
-        nuevo_nodo->next = lista->cur;
-        lista->cur = lista->acceso;
-        lista->aux=lista->acceso;
+        lista->aux = lista->acceso;
     }
     else{
         lista->aux->next = nuevo_nodo;
@@ -96,7 +78,7 @@ void supress_lista(lista_pedidos *lista) //no funciona bien cuando se borra el 1
 {
     if (lista->acceso == lista->cur) //equiv a aux == NULL
     {
-        lista->acceso->next = lista->cur->next;
+        lista->acceso = lista->cur->next;
         free((void*)lista->cur);
         lista->cur = lista->acceso;
         lista->aux = lista->acceso;
