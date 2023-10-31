@@ -1,6 +1,6 @@
-d) Mostrar todos los pedidos de un mes ordenados por fecha (el orden es opcional)
+Hecho d) Mostrar todos los pedidos de un mes ordenados por fecha (el orden es opcional) 
 e) Mostrar los pedidos por nombre, paginar la muestra de los datos
-f) Mostrar los pedidos realizados por un vendedor (esta función debe ser recursiva) solo mostrar total e
+Hecho f) Mostrar los pedidos realizados por un vendedor (esta función debe ser recursiva) solo mostrar total e
 idpedido
 i) Modificar el estado del pedido a entregado por idpedido
 k) Modificar nombre de un pedido según su idpedido
