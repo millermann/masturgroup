@@ -77,6 +77,7 @@ void insert_lista(lista_pedidos *lista)
         lista->acceso = nuevo_nodo;
         nuevo_nodo->next = lista->cur;
         lista->cur = lista->acceso;
+        lista->aux=lista->acceso;
     }
     else{
         lista->aux->next = nuevo_nodo;
