@@ -6,24 +6,7 @@
 #include "lista.h"
 
 int var_glob_vend_id;
-    void muestra_pedxnomb(lista_pedidos l,char c[]){
-        if(isEmpty(l)){
-            pedido aux;
-            reset_lista(&l);
-            while(!isOos(l)){
-                aux=copy_lista(l);
-                if(strcmp(get_nomb(aux),c)==0){
-                    printf("el pedido de %s %s es:\n",get_nomb(aux),get_ape(aux));
-                    mostrar_pedido(aux);
-                    forward_lista(&aux);
-                }
-                else{
-                    forward_lista(&aux);
-                }
-            }
-        }
 
-    }
 void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
@@ -63,17 +46,7 @@ int main()
         switch (opcion)
         {
             case 1: {
-                int seguir=-1;
-
-                while (seguir != 0)
-                {
-                    // si no si la precarga no se hace la lista quedaria con datos nodos vacios //rehacer
-                    insert_lista(&pedidos);
-                    system("cls");
-                    cargar_pedido(copy_lista(pedidos), combos_del_dia);
-                    printf("\n - Desea seguir ingresando pedidos (1=si, 0=no): ");
-                    scanf("%d", &seguir);
-                }
+                cargar_pedido_v2(&pedidos, combos_del_dia);
                 break;
             }
             case 2: {
@@ -81,7 +54,7 @@ int main()
                 printf("\n Ingrese id pedido: ");
                 scanf("%s", id_pedido_ing);
 
-                if (buscar_x_idped(&pedidos, id_pedido_ing) == 1) mostrar_pedido(*copy_lista(pedidos));
+                if (buscar_x_idped(&pedidos, id_pedido_ing) == 1) mostrar_pedido(copy_lista(pedidos));
                 else printf("\n No se encontro en la base...");
 
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
@@ -93,7 +66,7 @@ int main()
                 system("cls");
                 if (isEmpty(pedidos)!=1){
                     while(isOos(pedidos) != 1){
-                        mostrar_pedido(*copy_lista(pedidos));
+                        mostrar_pedido(copy_lista(pedidos));
                         forward_lista(&pedidos);
                     }
                 }
@@ -113,7 +86,7 @@ int main()
 
                 if (buscar_x_idped(&pedidos, id_pedido_ing) == 1){
 
-                    export_pedido(*copy_lista(pedidos));
+                    export_pedido(copy_lista(pedidos));
                     supress_lista(&pedidos);
                     printf("\n Pedido %s anulado y exportado...", id_pedido_ing);
                 }
@@ -135,7 +108,7 @@ int buscar_x_idped(lista_pedidos *lista_ing, char id[]) // f-b
     reset_lista(lista_ing);
     while(isOos(*lista_ing)!=1)
     {
-        if(strcmp(get_pedido_id(*copy_lista(*lista_ing)), id) == 0){
+        if(strcmp(get_pedido_id(copy_lista(*lista_ing)), id) == 0){
             return 1;
         }
         else forward_lista(lista_ing);
@@ -148,14 +121,14 @@ int contar_pedidos_vend(lista_pedidos lista_ing, int vend_id_ing, int n) //f-g
     // hacer un reset_lista en el main
     if(isOos(lista_ing) == 0)
     {
-        if (get_vend_id(*copy_lista(lista_ing)) == vend_id_ing) n+=1;
+        if (get_vend_id(copy_lista(lista_ing)) == vend_id_ing) n+=1;
         forward_lista(&lista_ing);
         return contar_pedidos_vend(lista_ing, vend_id_ing, n);
     }
     else return n;
 }
 
-void cargar_pedido(pedido *ped_ing, combo combos_ing[]) // f-a
+void cargar_pedido_v2(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
 {
     pedido pre_carga;
     init_pedido(&pre_carga);
@@ -166,6 +139,8 @@ void cargar_pedido(pedido *ped_ing, combo combos_ing[]) // f-a
         int num_ing1, num_ing2, salir_iter=-1; float monto;
         char str_ing1[strsize], str_ing2[strsize];
 
+        system("cls");
+        printf("\n # # # #   C A R G A R   D A T O S   # # # #");
         printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
         printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
         set_nombre(&pre_carga, str_ing1, str_ing2);
@@ -233,9 +208,13 @@ void cargar_pedido(pedido *ped_ing, combo combos_ing[]) // f-a
 
         printf("\n Desea confirmar el pedido?... (1=si / 0=no): ");
         scanf("%d", &pedido_confirm);
-        if (pedido_confirm == 1) copy_pedido(ped_ing, pre_carga);
+        if (pedido_confirm == 1){
+            insert_lista(lista_ing, pre_carga);
+            printf("\n - Se ha cargado el pedido...\n");
+        }
+        printf("\n Desea volver al menu?... (1=si / 0=no): ");
     }
-    printf("\n - Se ha cargado el pedido...\n");
+
 }
 
 void export_pedido(pedido ped_ing) // para f-l
@@ -303,6 +282,7 @@ void import_pedidos(lista_pedidos *lista_ing) // f-ll
     if (fopen(nomb_del_archivo, "r")==NULL){
         printf("\n\a # No se encontro el archivo...");
     }
+
     else{
         pedido nuevo_pedido;
         pedidos_importados = fopen(nomb_del_archivo, "r");
@@ -352,10 +332,10 @@ void import_pedidos(lista_pedidos *lista_ing) // f-ll
             set_forma_pago(&nuevo_pedido, forma_pago);
             set_entregado(&nuevo_pedido, entregado);
 
-            insert_listaypedido(lista_ing, nuevo_pedido);
+            insert_lista(lista_ing, nuevo_pedido);
 
             printf("\n\n\a # Datos Importados:\n");
-            mostrar_pedido(*copy_lista(*lista_ing));
+            mostrar_pedido(copy_lista(*lista_ing));
             printf("\n");
         }
         fclose(pedidos_importados);
@@ -387,7 +367,7 @@ void precarga_combos(combo combos_del_dia[]) // f-�
 
 void mostrar_pedido(pedido ped_ing)
 {
-     printf("\n -----------------------------------");
+    printf("\n -----------------------------------");
     printf("\n + Pedido ID: %s", get_pedido_id(ped_ing));
     printf("\n    + Vendedor ID: %d", get_vend_id(ped_ing));
     printf("\n    + Fecha de compra: %d/%d/%d", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
@@ -432,13 +412,21 @@ void mostrar_pedido(pedido ped_ing)
 
 int mod_estado_pedido(lista_pedidos *lista_ing, char id_pedido[], int estado_ing) //f-i
 {
+    pedido aux;
+
     int encontrado=-1;
     reset_lista(lista_ing);
 
     encontrado = buscar_x_idped(lista_ing, id_pedido);
     if (encontrado==1)
     {
-        set_entregado(copy_lista(*lista_ing), estado_ing);
+        aux = copy_lista(*lista_ing);
+
+        set_entregado(&aux, estado_ing);
+
+        supress_lista(lista_ing);
+        insert_lista(lista_ing, aux);
+
         return 0;
     }
     else return 1;
@@ -446,13 +434,21 @@ int mod_estado_pedido(lista_pedidos *lista_ing, char id_pedido[], int estado_ing
 
 int mod_form_pago_pedido(lista_pedidos *lista_ing, char id_pedido[], int formpago_ing) //f-j
 {
+    pedido aux;
+
     int encontrado=-1;
     reset_lista(lista_ing);
 
     encontrado = buscar_x_idped(lista_ing, id_pedido);
     if (encontrado==1)
     {
-        set_forma_pago(copy_lista(*lista_ing), formpago_ing);
+        aux = copy_lista(*lista_ing);
+
+        set_forma_pago(&aux, formpago_ing);
+
+        supress_lista(lista_ing);
+        insert_lista(lista_ing, aux);
+
         return 0;
     }
     else return 1;
@@ -460,13 +456,21 @@ int mod_form_pago_pedido(lista_pedidos *lista_ing, char id_pedido[], int formpag
 
 int mod_nombre_pedido(lista_pedidos *lista_ing, char id_pedido[], char nomb[], char ape[]) //f-k
 {
+    pedido aux;
+
     int encontrado=-1;
     reset_lista(lista_ing);
 
     encontrado = buscar_x_idped(lista_ing, id_pedido);
     if (encontrado==1)
     {
-        set_nombre(copy_lista(*lista_ing), nomb, ape);
+        aux = copy_lista(*lista_ing);
+
+        set_nombre(&aux, nomb, ape);
+
+        supress_lista(lista_ing);
+        insert_lista(lista_ing, aux);
+
         return 0;
     }
     else return 1;
