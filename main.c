@@ -6,7 +6,24 @@
 #include "lista.h"
 
 int var_glob_vend_id;
+    void muestra_pedxnomb(lista_pedidos l,char c[]){
+        if(isEmpty(l)){
+            pedido aux;
+            reset_lista(&l);
+            while(!isOos(l)){
+                aux=copy_lista(l);
+                if(strcmp(get_nomb(aux),c)==0){
+                    printf("el pedido de %s %s es:\n",get_nomb(aux),get_ape(aux));
+                    mostrar_pedido(aux);
+                    forward_lista(&aux);
+                }
+                else{
+                    forward_lista(&aux);
+                }
+            }
+        }
 
+    }
 void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
