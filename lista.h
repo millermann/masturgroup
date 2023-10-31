@@ -86,7 +86,7 @@ void insert_lista(lista_pedidos *lista)
 }
 
 
-pedido *copy_lista(lista_pedidos lista)
+pedido copy_lista(lista_pedidos lista)
 {
     return &lista.cur->vipd;
 }
