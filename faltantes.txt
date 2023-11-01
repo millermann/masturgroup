@@ -1,13 +1,8 @@
-Hecho d) Mostrar todos los pedidos de un mes ordenados por fecha (el orden es opcional) 
 e) Mostrar los pedidos por nombre, paginar la muestra de los datos
-Hecho f) Mostrar los pedidos realizados por un vendedor (esta función debe ser recursiva) solo mostrar total e
-idpedido
 i) Modificar el estado del pedido a entregado por idpedido
-k) Modificar nombre de un pedido según su idpedido
 ll) Almacenar en un archivo los datos de los pedidos pagados según una forma de pago pasada por parámetro.
 Los campos codificados deben estar decodificados en el archivo de manera tal que sea legible de un editor de
 texto. Informar por pantalla cuantos pedidos se copiaron en el archivo
-n) Mostrar todos los pedidos no entregados
 o) Modificar precio y stock del combo según idcombo
 p) Mostrar todos los combos
 q) Mostrar precio y stock de un combo por idcombo
