@@ -7,9 +7,96 @@
 
 int var_glob_vend_id;
 
+
+
+
+
+
+
 void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
+
+
+void muestra_pro_mes(lista_pedidos l,fecha f){
+    pedido aux;
+    if(!isEmpty(l)){
+        reset_lista(&l);
+        while(!isOos(l)){
+            aux=copy_lista(l);
+            if(get_fec_compra_mes(aux)==f.mes){
+                mostrar_pedido(aux);
+            }
+        }
+    }
+    else
+        printf("La lista esta vacia!\n");
+
+ }
+
+void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing) //f-g
+{
+    // hacer un reset_lista en el main
+    if(!isOos(lista_ing))
+    {
+        if (get_vend_id(copy_lista(lista_ing)) == vend_id_ing){
+            printf("Id del pedido: %s\n\n",get_pedido_id(copy_lista(lista_ing)));
+            printf("Total: %f\n",get_total(copy_lista(lista_ing)));
+
+        }
+        forward_lista(&lista_ing);
+    }
+}
+
+
+void muestra_no_entregados(lista_pedidos l){//poner debajo de las otras funciones
+    int boo=0;
+    if(!isEmpty(l)){
+        reset_lista(&l);
+        printf("Pedidos no entregados: \n");
+        while(!isOos(l)){
+            if(get_entregado(copy_lista(l))==0){
+                mostrar_pedido(copy_lista(l));
+                boo=1;
+            }
+            forward_lista(&l);
+        }
+        if(boo==0)
+            printf("No hay pedidos sin entregar\n");
+        else
+            printf("Todos los pedidos sin entregar mostrados\n");
+    }
+    else printf("Lista vacía!\n");
+}
+
+void modificar_nombre_por_id(lista_pedidos *l,char n[]){
+    int boo=0;
+    if(!isEmpty(*l)){
+        char str_ing1[strsize], str_ing2[strsize];
+        pedido aux;
+        reset_lista(l);
+
+        while(!isOos(*l)){
+            aux=copy_lista(*l);
+            if(strcmp(get_pedido_id(aux),n)==0){
+                supress_lista(l);
+                printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
+                printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
+
+                set_nombre(&aux, str_ing1, str_ing2);
+
+                insert_lista(l,aux);
+
+                boo=1;
+            }
+            forward_lista(l);
+        }
+        if(boo==0)
+            printf("No hay pedidos con ese id\n");
+    }
+    else printf("Lista vacía!\n");
+
+}
 
 int main()
 {
