@@ -1,5 +1,4 @@
 e) Mostrar los pedidos por nombre, paginar la muestra de los datos
-i) Modificar el estado del pedido a entregado por idpedido
 ll) Almacenar en un archivo los datos de los pedidos pagados según una forma de pago pasada por parámetro.
 Los campos codificados deben estar decodificados en el archivo de manera tal que sea legible de un editor de
 texto. Informar por pantalla cuantos pedidos se copiaron en el archivo
