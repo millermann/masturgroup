@@ -18,7 +18,7 @@ void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
 
 
-void muestra_pro_mes(lista_pedidos l,fecha f){
+void muestra_por_mes(lista_pedidos l,fecha f){
     pedido aux;
     if(!isEmpty(l)){
         reset_lista(&l);
@@ -80,6 +80,7 @@ void modificar_nombre_por_id(lista_pedidos *l,char n[]){
             aux=copy_lista(*l);
             if(strcmp(get_pedido_id(aux),n)==0){
                 supress_lista(l);
+
                 printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
                 printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
 
@@ -95,7 +96,6 @@ void modificar_nombre_por_id(lista_pedidos *l,char n[]){
             printf("No hay pedidos con ese id\n");
     }
     else printf("Lista vacía!\n");
-
 }
 
 int main()
