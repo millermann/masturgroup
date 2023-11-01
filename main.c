@@ -94,6 +94,34 @@ void modificar_nombre_por_id(lista_pedidos *l,char n[]){
         }
         if(boo==0)
             printf("No hay pedidos con ese id\n");
+        else printf("Pedido modificado\n");
+
+    }
+    else printf("Lista vacía!\n");
+}
+
+void modificar_estado_por_id(lista_pedidos *l,char n[]){
+    int boo=0;
+    if(!isEmpty(*l)){
+        pedido aux;
+        reset_lista(l);
+
+        while(!isOos(*l)){
+            aux=copy_lista(*l);
+            if(strcmp(get_pedido_id(aux),n)==0){
+                supress_lista(l);
+
+                set_entregado(&aux,1);
+
+                insert_lista(l,aux);
+
+                boo=1;
+            }
+            forward_lista(l);
+        }
+        if(boo==0)
+            printf("No hay pedidos con ese id\n");
+        else printf("Pedido modificado\n");
     }
     else printf("Lista vacía!\n");
 }
