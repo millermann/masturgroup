@@ -27,6 +27,7 @@ void muestra_por_mes(lista_pedidos l,fecha f){
             if(get_fec_compra_mes(aux)==f.mes){
                 mostrar_pedido(aux);
             }
+            forward_lista(&l);
         }
     }
     else
