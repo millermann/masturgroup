@@ -7,15 +7,86 @@
 
 int var_glob_vend_id;
 
-
-
-
-
-
-
 void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
+
+
+void muestra_combos_sin_stock(combo arr[]){
+    int i,boo=0;
+    printf("Combos sin stock:\n");
+    for(i=0;i<10;i++){
+        if(muestrastock(arr[i])==0){
+            printf("   -Id: %d\n",i);
+            printf("   -Descripcion: %s.\n",muestradescripcion(arr[i]));
+            printf("   -Stock: %d.\n",muestrastock(arr[i]));
+            printf("   -Precio: %.2f.\n",muestraprecio(arr[i]));
+            if(muestradescuento(arr[i])==1)
+                printf("   -Tiene descuento.\n");
+            else
+                printf("   -No tiene descuento.\n");
+            printf("\n\n");
+            boo=1;
+        }
+    }
+    if(boo==1)
+        printf(" No hay combos sin stock\n");
+    system("pause");
+    system("cls");
+}
+
+
+void modifica_precio_y_stock_de_combo(combo arr[]){
+    int id,stock;
+    float precio;
+    do{
+        printf("    Ingrese id del combo que quiere modificar: ");
+        scanf(" %d",&id);
+    }while(id<0||id>9);
+    do{
+    printf("    Ingrese nuevo precio: ");
+    scanf(" %f",&precio);
+    cargaprecio(&arr[id],precio);
+    }while(precio<0);
+
+    do{
+    printf("    Ingrese nuevo stock: ");
+    scanf(" %d",&stock);
+    cargastock(&arr[id],stock);
+    }while(stock<0);
+}
+
+void muestra_combos(combo arr[]){
+    int i;
+    for(i=0;i<10;i++){
+        printf("   -Id: %d\n",i);
+        printf("   -Descripcion: %s.\n",muestradescripcion(arr[i]));
+        printf("   -Stock: %d.\n",muestrastock(arr[i]));
+        printf("   -Precio: %.2f.\n",muestraprecio(arr[i]));
+        if(muestradescuento(arr[i])==1)
+            printf("   -Tiene descuento.\n");
+        else
+            printf("   -No tiene descuento.\n");
+        printf("\n\n");
+    }
+    system("pause");
+    system("cls");
+}
+
+void mostrar_pecio_y_stock(combo arr[]){
+    int id;
+    do{
+        printf("    Ingrese id del combo que quiere modificar: ");
+        scanf(" %d",&id);
+    }while(id<0||id>9);
+    system("cls");
+    printf("   -Id: %d\n",id);
+    printf("   -Stock: %d.\n",muestrastock(arr[id]));
+    printf("   -Precio: %.2f.\n",muestraprecio(arr[id]));
+    system("pause");
+    system("cls");
+}
+
 
 
 void muestra_por_mes(lista_pedidos l,fecha f){
@@ -27,13 +98,17 @@ void muestra_por_mes(lista_pedidos l,fecha f){
             if(get_fec_compra_mes(aux)==f.mes){
                 mostrar_pedido(aux);
             }
-            forward_lista(&l);
         }
+
     }
     else
         printf("La lista esta vacia!\n");
+    system("pause");
+    system("cls");
 
  }
+
+
 
 void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing) //f-g
 {
@@ -68,7 +143,10 @@ void muestra_no_entregados(lista_pedidos l){//poner debajo de las otras funcione
             printf("Todos los pedidos sin entregar mostrados\n");
     }
     else printf("Lista vacía!\n");
+    system("pause");
+    system("cls");
 }
+
 
 void modificar_nombre_por_id(lista_pedidos *l,char n[]){
     int boo=0;
@@ -129,9 +207,11 @@ void modificar_estado_por_id(lista_pedidos *l,char n[]){
 
 int main()
 {
-    lista_pedidos pedidos; combo combos_del_dia[num_combos];
+    lista_pedidos pedidos;
+    combo combos_del_dia[num_combos];
     mod_vend_id(1);
-    init_lista(&pedidos); precarga_combos(combos_del_dia);
+    init_lista(&pedidos);
+    precarga_combos(combos_del_dia);
 
     int opcion=-1;
 
@@ -265,7 +345,6 @@ void cargar_pedido_v2(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
         printf("\n - Ingreso combos: ");
 
         // deberiamos mostrar una tabla con el id del combo y respectivo stock para todos los combos
-
         while (salir_iter != 0)
         {
             printf("\n\t + Ing. combo id (0-%d): ", num_combos-1); scanf("%d", &num_ing1);
@@ -460,6 +539,10 @@ void import_pedidos(lista_pedidos *lista_ing) // f-ll
     fflush(stdin);
     getchar();
 }
+
+
+
+
 
 void precarga_combos(combo combos_del_dia[]) // f-�
 {
