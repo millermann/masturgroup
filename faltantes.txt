@@ -2,10 +2,6 @@ e) Mostrar los pedidos por nombre, paginar la muestra de los datos
 ll) Almacenar en un archivo los datos de los pedidos pagados según una forma de pago pasada por parámetro.
 Los campos codificados deben estar decodificados en el archivo de manera tal que sea legible de un editor de
 texto. Informar por pantalla cuantos pedidos se copiaron en el archivo
-o) Modificar precio y stock del combo según idcombo
-p) Mostrar todos los combos
-q) Mostrar precio y stock de un combo por idcombo
-r) Mostrar los combos sin stock
 s) Informar cual es el vendedor que realizo mas pedidos en el mes
 
 insert
