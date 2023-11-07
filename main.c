@@ -117,15 +117,44 @@ void mostrar_pecio_y_stock(combo arr[]){
     system("cls");
 }
 
-void muestra_por_mes(lista_pedidos l,fecha f){
+void muestra_por_mes(lista_pedidos l,fecha f){//D
     pedido aux;
+    int cont=0,i=0,j,n;
     if(!isEmpty(l)){
         reset_lista(&l);
+        
+        while(!isOos(l)){
+            aux=copy_lista(l);
+            if(get_fec_compra_mes(aux)==f.mes)
+                cont++;
+            forward_lista(&l);
+        }
+        
+        pedido *arr=(pedido *)malloc(sizeof(pedido)*cont);
+
+        reset_lista(&l);
+        
         while(!isOos(l)){
             aux=copy_lista(l);
             if(get_fec_compra_mes(aux)==f.mes){
-                mostrar_pedido(aux);
+                arr[i]=aux;
+                i++;
             }
+            forward_lista(&l);
+        }
+        
+        for(n=0;n<cont-1;n++){
+            for(j=0;j<cont-1;j++){
+                if(get_fec_compra_mes(arr[j])>get_fec_compra_mes(arr[j+1])){
+                    aux=arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=aux;
+                }   
+            }
+        }
+        
+        for(n=0;n<cont;n++){
+            mostrar_pedido(arr[i]);
         }
 
     }
@@ -133,7 +162,6 @@ void muestra_por_mes(lista_pedidos l,fecha f){
         printf("La lista esta vacia!\n");
     system("pause");
     system("cls");
-
  }
 
 void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing) //f-g
