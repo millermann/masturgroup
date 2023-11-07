@@ -12,7 +12,7 @@ void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
 void muestra_pedxnomb(lista_pedidos l,char c[]){
         int boo=0;
-        if(isEmpty(l)){
+        if(!isEmpty(l)){
             pedido aux;
             reset_lista(&l);
             while(!isOos(l)){
