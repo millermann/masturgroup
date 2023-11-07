@@ -5,7 +5,7 @@
 #include <time.h>
 
 #define strsize 25
-#define idsize 7
+#define idsize 8
 #define num_combos 10
 #define costo_delivery 500
 
@@ -64,8 +64,9 @@ char *get_ape(pedido ped_ing)
     // es necesaria funcion get del nombre completo??
 char *get_pedido_id(pedido ped_ing)
 {
-    char *aux = (char*)malloc(sizeof(char)*strsize);
+    char *aux = (char*)malloc(sizeof(char)*idsize);
     strcpy(aux, ped_ing.pedido_id);
+    aux[idsize]='\0';
     return aux;
 }
 
@@ -215,6 +216,7 @@ char *gen_pedido_id(void)
         id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
     }
     id_gen[idsize]='\0';
+
     strcpy(aux, id_gen);
     return aux;
 }

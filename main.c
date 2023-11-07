@@ -7,7 +7,7 @@
 
 int var_glob_vend_id;
 
-void cargar_pedido(pedido *ped_ing, combo combos_ing[]);
+void cargar_pedido(lista_pedidos *lista_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
 
@@ -34,7 +34,6 @@ void muestra_combos_sin_stock(combo arr[]){
     system("pause");
     system("cls");
 }
-
 
 void modifica_precio_y_stock_de_combo(combo arr[]){
     int id,stock;
@@ -87,8 +86,6 @@ void mostrar_pecio_y_stock(combo arr[]){
     system("cls");
 }
 
-
-
 void muestra_por_mes(lista_pedidos l,fecha f){
     pedido aux;
     if(!isEmpty(l)){
@@ -108,8 +105,6 @@ void muestra_por_mes(lista_pedidos l,fecha f){
 
  }
 
-
-
 void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing) //f-g
 {
     // hacer un reset_lista en el main
@@ -123,7 +118,6 @@ void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing) //f-g
         forward_lista(&lista_ing);
     }
 }
-
 
 void muestra_no_entregados(lista_pedidos l){//poner debajo de las otras funciones
     int boo=0;
@@ -146,7 +140,6 @@ void muestra_no_entregados(lista_pedidos l){//poner debajo de las otras funcione
     system("pause");
     system("cls");
 }
-
 
 void modificar_nombre_por_id(lista_pedidos *l,char n[]){
     int boo=0;
@@ -234,7 +227,7 @@ int main()
         printf("\n  (5) Anular y exportar pedido por ID Pedido");
         printf("\n  (0) Salir");
         printf("\n\n + Resp: ");
-
+        fflush(stdin);
         scanf("%d", &opcion);
 
         //control opcion
@@ -242,14 +235,13 @@ int main()
         switch (opcion)
         {
             case 1: {
-                cargar_pedido_v2(&pedidos, combos_del_dia);
+                cargar_pedido(&pedidos, combos_del_dia);
                 break;
             }
             case 2: {
-                char id_pedido_ing[idsize];
+                char id_pedido_ing[strsize];
                 printf("\n Ingrese id pedido: ");
                 scanf("%s", id_pedido_ing);
-
                 if (buscar_x_idped(&pedidos, id_pedido_ing) == 1) mostrar_pedido(copy_lista(pedidos));
                 else printf("\n No se encontro en la base...");
 
@@ -263,6 +255,7 @@ int main()
                 if (isEmpty(pedidos)!=1){
                     while(isOos(pedidos) != 1){
                         mostrar_pedido(copy_lista(pedidos));
+                        printf("\n");
                         forward_lista(&pedidos);
                     }
                 }
@@ -296,7 +289,7 @@ int main()
 
 
 
-    return 0;
+    return 7;
 }
 
 int buscar_x_idped(lista_pedidos *lista_ing, char id[]) // f-b
@@ -324,7 +317,7 @@ int contar_pedidos_vend(lista_pedidos lista_ing, int vend_id_ing, int n) //f-g
     else return n;
 }
 
-void cargar_pedido_v2(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
+void cargar_pedido(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
 {
     pedido pre_carga;
     init_pedido(&pre_carga);
@@ -401,7 +394,7 @@ void cargar_pedido_v2(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
         printf("\n -------------------------");
         printf("\n - Total: %.2f", get_total(pre_carga));
 
-        printf("\n Desea confirmar el pedido?... (1=si / 0=no): ");
+        printf("\n\n # Desea confirmar el pedido?... (1=si / 0=no): ");
         scanf("%d", &pedido_confirm);
         if (pedido_confirm == 1){
             insert_lista(lista_ing, pre_carga);
@@ -436,7 +429,7 @@ void export_pedido(pedido ped_ing) // para f-l
     fclose(fp);
 }
 
-void import_pedidos(lista_pedidos *lista_ing) // f-ll
+void import_pedidos_vieja(lista_pedidos *lista_ing)
 {
     FILE *pedidos_importados;
     char nomb_del_archivo[30];
@@ -540,15 +533,123 @@ void import_pedidos(lista_pedidos *lista_ing) // f-ll
     getchar();
 }
 
+void import_pedidos(lista_pedidos *lista_ing) // f-ll
+{
+    FILE *pedidos_importados;
+    char nomb_del_archivo[30];
 
+    system("cls");
+    printf("\n # # #   I M P O R T A R   P E D I D O S   # # #\n");
 
+    printf("\n - Introduzca el nombre completo del archivo (ej: ARCHIVO_DE_EJEMPLO.txt)");
+    printf("\n    * Puede introducir \"ayuda\" para ver mas informacion... ");
 
+    printf("\n\n - Resp: ");
+    scanf("%s", nomb_del_archivo);
+
+    // corregir el texto de ayuda
+
+    if (strcmp(nomb_del_archivo, "ayuda") == 0){
+        system("cls");
+        printf("\n\a # # #   A Y U D A   # # #\n");
+        printf("\n no le den bola todavia, todavia no se en que orden leer y guardarlos.");
+        printf("\n * Coloque el archivo en dentro de la carpeta del programa...\n");
+        printf("\n * El nombre del archivo no debe contener ningun espacio...\n");
+        printf("\n * El archivo de tener el siguiente formato:");
+        printf("\n    ---");
+        printf("\n    PEDIDO_ID");
+        printf("\n    VEND_ID");
+        printf("\n    DIA MES ANIO");
+        printf("\n    NOMBRE APELLIDO");
+        printf("\n    UNIDADES_DEL_COMBO ");
+        printf("\n    CONSUM_LOCAL");
+        printf("\n    CUPON_DESCUENTO");
+        printf("\n    SUBTOTAL");
+        printf("\n    TOTAL");
+        printf("\n    FORMA_DE_PAGO");
+        printf("\n    ENTREGADO");
+        printf("\n\n - Introduzca el nombre completo del archivo (ej: ARCHIVO_DE_EJEMPLO.txt)");
+        printf("\n\n - Resp: ");
+        scanf("%s", nomb_del_archivo);
+    }
+
+    if (fopen(nomb_del_archivo, "r")==NULL){
+        printf("\n\a # No se encontro el archivo...");
+    }
+
+    else{
+        pedido nuevo_pedido;
+        pedidos_importados = fopen(nomb_del_archivo, "r");
+        reset_lista(lista_ing); // necesario?
+
+        char pedido_id[idsize], nomb[strsize], ape[strsize], separador[20];
+        int vend_id, comb_pedidos[num_combos], consum_local, forma_pago, entregado, i;
+        float subtotal, total;
+
+        //int cup_descuento;
+
+        fecha fec_compra;
+
+        printf("\n # # #   I M P O R T A R   P E D I D O S   # # #\n");
+        printf("\n - Desde: %s", nomb_del_archivo);
+        printf("\n\n\a # Datos Importados:\n");
+        while (feof(pedidos_importados)==0){
+            init_pedido(&nuevo_pedido);
+
+            fscanf(pedidos_importados, "%s ", nomb);
+            fscanf(pedidos_importados, "%s ", pedido_id);
+
+            fscanf(pedidos_importados, "%d ", &vend_id);
+
+            for (i=0; i<num_combos; i++){
+                fscanf(pedidos_importados, "%d ", &comb_pedidos[i]);
+            }
+
+            fscanf(pedidos_importados, "%d ", &forma_pago);
+            fscanf(pedidos_importados, "%f ", &subtotal);
+            fscanf(pedidos_importados, "%d ", &consum_local);
+            fscanf(pedidos_importados, "%f ", &total);
+            fscanf(pedidos_importados, "%d %d %d ", &fec_compra.dia, &fec_compra.mes, &fec_compra.anio);
+            fscanf(pedidos_importados, "%d ", &entregado);
+
+            //fscanf(pedidos_importados, "%d ", &cup_descuento);
+
+            fscanf(pedidos_importados, "%s ", separador);
+
+            set_pedido_id(&nuevo_pedido, pedido_id);
+            set_vend_id(&nuevo_pedido, vend_id);
+            set_fec_compra_dia(&nuevo_pedido, fec_compra.dia);
+            set_fec_compra_mes(&nuevo_pedido, fec_compra.mes);
+            set_fec_compra_anio(&nuevo_pedido, fec_compra.anio);
+            set_nombre(&nuevo_pedido, nomb, ape);
+            for (i=0; i<num_combos; i++){
+                set_comb_pedidos(&nuevo_pedido, i, comb_pedidos[i]);
+            }
+            set_consum_local(&nuevo_pedido, consum_local);
+            set_subtotal(&nuevo_pedido, subtotal);
+            set_total(&nuevo_pedido, total);
+            set_forma_pago(&nuevo_pedido, forma_pago);
+            set_entregado(&nuevo_pedido, entregado);
+
+            //set_cup_descuento(&nuevo_pedido, cup_descuento);
+
+            insert_lista(lista_ing, nuevo_pedido);
+
+            mostrar_pedido(copy_lista(*lista_ing));
+            printf("\n");
+        }
+        fclose(pedidos_importados);
+    }
+    printf("\n\n - Pulse una tecla para volver al menu...");
+    fflush(stdin);
+    getchar();
+}
 
 void precarga_combos(combo combos_del_dia[]) // f-�
 {
     FILE *archivo_combos = fopen("menu.txt", "r");
     int id_combo_scan;
-    char separador[4];
+    char separador[strsize];
 
     while(feof(archivo_combos) == 0)
     {
@@ -566,29 +667,29 @@ void precarga_combos(combo combos_del_dia[]) // f-�
 
 void mostrar_pedido(pedido ped_ing)
 {
-    printf("\n -----------------------------------");
-    printf("\n + Pedido ID: %s", get_pedido_id(ped_ing));
-    printf("\n    + Vendedor ID: %d", get_vend_id(ped_ing));
-    printf("\n    + Fecha de compra: %d/%d/%d", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
-    printf("\n    + Nombre: %s %s", get_nomb(ped_ing), get_ape(ped_ing));
+    printf("\n    -----------------------------------");
+    printf("\n     + Pedido ID: %s", get_pedido_id(ped_ing));
+    printf("\n       + Vendedor ID: %d", get_vend_id(ped_ing));
+    printf("\n       + Fecha de compra: %d/%d/%d", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
+    printf("\n       + Nombre: %s %s", get_nomb(ped_ing), get_ape(ped_ing));
 
     //mostrar comb pedidos
 
-    printf("\n    + Consume en el local: ");
+    printf("\n       + Consume en el local: ");
     if(get_consum_local(ped_ing) == 1) printf("si");
     else printf("no");
 
-    printf("\n    + Cupon de descuento: ");
+    printf("\n       + Cupon de descuento: ");
     if(get_cup_descuento(ped_ing) == 1) printf("si");
     else printf("no");
 
-    printf("\n -----------------------------------");
-    printf("\n + Subtotal: %.2f", get_subtotal(ped_ing));
-    if (get_consum_local(ped_ing) == 0) printf("\n + Costo Delivery: %d", costo_delivery);
-    printf("\n -----------------------------------");
-    printf("\n - Total: %.2f", get_total(ped_ing));
-    printf("\n -----------------------------------");
-    printf("\n + Metodo de pago: ");
+    printf("\n    -----------------------------------");
+    printf("\n     + Subtotal: %.2f", get_subtotal(ped_ing));
+    if (get_consum_local(ped_ing) == 0) printf("\n     + Costo Delivery: %d", costo_delivery);
+    printf("\n    -----------------------------------");
+    printf("\n     - Total: %.2f", get_total(ped_ing));
+    printf("\n    -----------------------------------");
+    printf("\n     + Metodo de pago: ");
     switch(get_forma_pago(ped_ing))
     {
         case 1:{
@@ -604,7 +705,7 @@ void mostrar_pedido(pedido ped_ing)
             printf("Efectivo."); break;
         }
     }
-    printf("\n + Estado: ");
+    printf("\n     + Estado: ");
     if (get_entregado(ped_ing) == 1) printf("Entregado.");
     else printf("No Entregado.");
 }
