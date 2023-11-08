@@ -3,7 +3,7 @@
 EL SIGUIENTE ES UN EJEMPLO DE DATOS DE CARGA, CADA GRUPO DEBERA CORREGIR LOS DATOS DEL ARCHIVO SI NO CORRESPONDEN AL TIPO DEFINIDO ES SU TDA,
 " NO MODIFICAR EL TIPO/CODIGO, CAMBIAR EL DATO EN EL ARCHIVO"
 EL ORDEN DE LOS DATOS ES EL SIGUIENTE:
-Nombre: nombre de la persona que realiza el pedido 
+Nombre y apellido: nombre de la persona que realiza el pedido 
 Id pedido: identificador STRING
 Vendedor: cÃ³digo del vendedor (EN ESTE EJEMPLO ES NUMERO)
 Combo_pedido: es un arreglo de 10 posiciones (SE PASAN LA CANTIDAD DE LAS 10 POSICIONES)
@@ -14,11 +14,8 @@ Total (monto total del pedido)
 Fecha de compra: tipo fecha trabajado en la materia (dia mes aÃ±o uno debajo del otro)
 Entregado 1 si 0 no
 
-###   falta agregar el espacio para el apellido
-###   no se si agregar el espacio para el cupon de descuento
-
 /**********************BORRAR HASTA AQUI********************************/
-JUAN
+JUAN BERMUDEZ
 PROG0001
 1
 0
@@ -40,7 +37,7 @@ PROG0001
 2023
 1
 ----------
-MARIANA
+MARIANA LOPEZ
 PROG0010
 1
 1
@@ -62,7 +59,7 @@ PROG0010
 2023
 1
 -----------
-JUAN
+JUAN PIMPINELA
 PROG0100
 2
 0
@@ -84,7 +81,7 @@ PROG0100
 2023
 0
 ----------
-JUANA
+JUANA ARCO
 PROG1000
 2
 0
@@ -106,7 +103,7 @@ PROG1000
 2023
 1
 -----------
-SUSANA
+SUSANA GIMENEZ
 PROG0002
 2
 0
@@ -128,7 +125,7 @@ PROG0002
 2023
 1
 ------------------
-JORGE
+JORGE RIAL
 PROG0200
 2
 1
@@ -150,7 +147,7 @@ PROG0200
 2023
 1
 --------------
-JUAN
+JUAN GILBERTO
 PROG2000
 2
 0
@@ -172,7 +169,7 @@ PROG2000
 2023
 1
 ------------------
-DANIEL
+DANIEL SCIOLI
 PROG0003
 1
 0
@@ -194,7 +191,7 @@ PROG0003
 2023
 1
 ----------------
-EUGENIA
+EUGENIA FERNANDEZ
 PROG0030
 1
 0
@@ -216,7 +213,7 @@ PROG0030
 2023
 1
 ---------------
-CECILIA
+CECILIA MUNOZ
 PROG0300
 1
 0
