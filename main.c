@@ -149,7 +149,7 @@ void muestra_por_mes(lista_pedidos l,fecha f){//D
                     aux=arr[j];
                     arr[j]=arr[j+1];
                     arr[j+1]=aux;
-                }   
+                }
             }
         }
 
@@ -270,6 +270,7 @@ int main()
     while(opcion != 0)
     {
         system("cls");
+
         printf("\n # # # #  M E N U  # # # #\n");
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
         //funciones de cargar y modificar
@@ -309,7 +310,7 @@ int main()
                 break;
             }
 
-            case 3: { // error // cuando se carga 1 pedido, luego se borra, y se importan los pedidos de un archivo // entra en bucle
+            case 3: {
                 reset_lista(&pedidos);
                 system("cls");
                 if (isEmpty(pedidos)!=1){
@@ -411,9 +412,9 @@ void cargar_pedido(lista_pedidos *lista_ing, combo combos_ing[]) // f-a
         set_nombre(&pre_carga, str_ing1, str_ing2);
         set_pedido_id(&pre_carga, gen_pedido_id());
         set_vend_id(&pre_carga, var_glob_vend_id);
-        printf("\n - Ingreso combos: ");
+        printf("\n M E N U ");
 
-        // deberiamos mostrar una tabla con el id del combo y respectivo stock para todos los combos
+        mostrar_combos(combos_ing);
         while (salir_iter != 0)
         {
             printf("\n\t + Ing. combo id (0-%d): ", num_combos-1); scanf("%d", &num_ing1);
@@ -803,6 +804,21 @@ void precarga_combos(combo combos_del_dia[]) // f-�
     }
 
     fclose(archivo_combos);
+}
+
+void mostrar_combos(combo combos_ing[]){
+    int i;
+    for (i=0; i<num_combos; i++){
+        printf("\n   ---------------------------");
+        printf("\n     ");
+        printf("id: %d | %s", i, muestradescripcion(combos_ing[i]));
+        printf("\n     ");
+        printf("stock: %d | ", get_combo_stock(combos_ing, i));
+        printf("precio: %.2f | ", muestraprecio(combos_ing[i]));
+        printf("descuento: ");
+        if (muestradescuento(combos_ing[i]) == 1) printf("si");
+        else printf("no");
+    }
 }
 
 void mostrar_pedido(pedido ped_ing)
