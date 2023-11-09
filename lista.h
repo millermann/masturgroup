@@ -4,8 +4,6 @@
 #include <malloc.h>
 #include "pedido.h"
 
-//todavia no se si andan
-
 struct nod{
     pedido vipd;
     struct nod *next;
@@ -76,7 +74,7 @@ pedido copy_lista(lista_pedidos lista)
 
 void supress_lista(lista_pedidos *lista)
 {
-    if (lista->acceso == lista->cur) //equiv a aux == NULL
+    if (lista->acceso == lista->cur)
     {
         lista->acceso = lista->cur->next;
         free((void*)lista->cur);
