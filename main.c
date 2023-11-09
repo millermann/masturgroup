@@ -54,6 +54,9 @@ void empleado_del_mes(lista_pedidos l,int mes){
 
 
     }
+    else{
+        printf("Error,no hay pedidos cargados :( \n");
+    }
 }
 
 void muestra_pedxnomb(lista_pedidos l,char c[]){
