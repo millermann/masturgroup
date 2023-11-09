@@ -14,11 +14,10 @@ struct tm *fecha_actual ;
 void cargar_pedido(lista_pedidos *lista_ing);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
-
 void empleado_del_mes(lista_pedidos l,int mes){
-    if(!isEmpty(l)){
+
             pedido aux;
-            int n,cont_vend1=0,cont_vend2=0,cont_vend3=0;
+            int n,cont_vend1=0,cont_vend2=0,cont_vend3=0,auxd;
             reset_lista(&l);
             while(!isOos(l)){
                 aux=copy_lista(l);
@@ -26,38 +25,62 @@ void empleado_del_mes(lista_pedidos l,int mes){
                      switch(get_vend_id(aux)){
             case 1:
                 cont_vend1++;
-                forward_lista(&aux);break;
+                forward_lista(&l);break;
             case 2:
                 cont_vend2++;
-                forward_lista(&aux);break;
+                forward_lista(&l);break;
             case 3:
                 cont_vend3++;
-                forward_lista(&aux);break;
+                forward_lista(&l);break;
               }
                 }
             else{
-                forward_lista(&aux);
+                forward_lista(&l);
             }
 
         }
         if((cont_vend1>cont_vend2)&&cont_vend1>cont_vend3){
             printf("El empleado 1 es el que mas vendio en el mes\n");
+            auxd=1;
+            system("pause");
         }
         else{
             if((cont_vend2>cont_vend1)&&cont_vend2>cont_vend3){
                 printf("El empleado 2 es el que mas vendio en el mes\n");
+                auxd=2;
+                system("pause");
             }
             else{
                 printf("El empleado 3 es el que mas vendio en el mes\n");
+                auxd=3;
+                system("pause");
+            }
+        }
+        if((cont_vend1==cont_vend2)&&(cont_vend1==cont_vend3)){
+            printf("Los tres empleados tienen la misma cantidad de pedidos realizados\n");
+                system("pause");
+
+        }
+        else{
+            if(cont_vend1==cont_vend2 && auxd!=3 ){
+                printf("¡Empleado 1 y empleado 2 son los empleados del mes!\n");
+                system("pause");
+            }
+            else{
+                if(cont_vend3==cont_vend2 && auxd!=1){
+                    printf("¡Empleado 2 y empleado 3 son los empleados del mes!\n");
+                    system("pause");
+                }
+                else{
+                    if(cont_vend1==cont_vend3 && auxd!=2){
+                        printf("¡Empleado 1 y empleado 3 son los empleados del mes!\n");
+                        system("pause");
+                    }
+                }
             }
         }
 
-
     }
-    else{
-        printf("Error,no hay pedidos cargados :( \n");
-    }
-}
 
 void muestra_pedxnomb(lista_pedidos l,char c[]){
         int boo=0;
