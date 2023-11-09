@@ -15,7 +15,7 @@ void cargar_pedido(lista_pedidos *lista_ing);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
 
-void empleado_del_mes(lista_pedidos l,int mes,int id_emp1,int id_emp2,int id_emp3){
+void empleado_del_mes(lista_pedidos l,int mes){
     if(!isEmpty(l)){
             pedido aux;
             int n,cont_vend1=0,cont_vend2=0,cont_vend3=0;
@@ -23,37 +23,37 @@ void empleado_del_mes(lista_pedidos l,int mes,int id_emp1,int id_emp2,int id_emp
             while(!isOos(l)){
                 aux=copy_lista(l);
                 if(get_fec_compra_mes(aux)==mes){
-
-                    if(get_vend_id(aux)==id_emp1){
-                    cont_vend1++;
-                    forward_lista(&l);}
-                    else{
-                        if(get_vend_id(aux)==id_emp2){
-                            cont_vend2++;
-                            forward_lista(&l);}
-                        else{
-                            if(get_vend_id(aux)==id_emp3){
-                                cont_vend3++;
-                                forward_lista(&l);}}}}
-            else{
-                forward_lista(&l);
+                     switch(get_vend_id(aux)){
+            case 1:
+                cont_vend1++;
+                forward_lista(&aux);break;
+            case 2:
+                cont_vend2++;
+                forward_lista(&aux);break;
+            case 3:
+                cont_vend3++;
+                forward_lista(&aux);break;
+              }
                 }
+            else{
+                forward_lista(&aux);
+            }
 
-                            }
+        }
         if((cont_vend1>cont_vend2)&&cont_vend1>cont_vend3){
             printf("El empleado 1 es el que mas vendio en el mes\n");
-                                                            }
+        }
         else{
             if((cont_vend2>cont_vend1)&&cont_vend2>cont_vend3){
-                printf("El empleado 2 es el que mas vendio en el mes\n");}
+                printf("El empleado 2 es el que mas vendio en el mes\n");
+            }
             else{
                 printf("El empleado 3 es el que mas vendio en el mes\n");
-                }
             }
-    }
-    else{
-        printf(("No hay ventas hechas.\n"));
         }
+
+
+    }
 }
 
 void muestra_pedxnomb(lista_pedidos l,char c[]){
