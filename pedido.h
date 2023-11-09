@@ -51,14 +51,14 @@ void init_pedido(pedido *ped_ing)
 char *get_nomb(pedido ped_ing)
 {
     char *aux=(char*)malloc(sizeof(char)*strsize);
-    aux = ped_ing.nomb;
+    strcpy(aux, ped_ing.nomb);
     return aux;
 }
 
 char *get_ape(pedido ped_ing)
 {
     char *aux=(char*)malloc(sizeof(char)*strsize);
-    aux = ped_ing.ape;
+    strcpy(aux, ped_ing.ape);
     return aux;
 }
     // es necesaria funcion get del nombre completo??
