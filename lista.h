@@ -50,7 +50,7 @@ void reset_lista(lista_pedidos *lista)
     lista->aux = lista->acceso;
 }
 
-void insert_lista(lista_pedidos *lista, pedido pedido_ing) // no se cual es el adecuado
+void insert_lista(lista_pedidos *lista, pedido pedido_ing)
 {
     nodo *nuevo_nodo = (nodo*)malloc(sizeof(nodo));
     copy_pedido(&nuevo_nodo->vipd, pedido_ing);
@@ -74,7 +74,7 @@ pedido copy_lista(lista_pedidos lista)
     return lista.cur->vipd;
 }
 
-void supress_lista(lista_pedidos *lista) //no funciona bien cuando se borra el 1er elem de la lista
+void supress_lista(lista_pedidos *lista)
 {
     if (lista->acceso == lista->cur) //equiv a aux == NULL
     {
