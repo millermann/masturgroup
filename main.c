@@ -10,6 +10,8 @@ int var_glob_vend_id;
 void cargar_pedido(lista_pedidos *lista_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
+
+
 void empleado_del_mes(lista_pedidos l,int mes,int id_emp1,int id_emp2,int id_emp3){
     if(!isEmpty(l)){
             pedido aux;
@@ -21,17 +23,17 @@ void empleado_del_mes(lista_pedidos l,int mes,int id_emp1,int id_emp2,int id_emp
 
                     if(get_vend_id(aux)==id_emp1){
                     cont_vend1++;
-                    forward_lista(&aux);}
+                    forward_lista(&l);}
                     else{
                         if(get_vend_id(aux)==id_emp2){
                             cont_vend2++;
-                            forward_lista(&aux);}
+                            forward_lista(&l);}
                         else{
                             if(get_vend_id(aux)==id_emp3){
                                 cont_vend3++;
-                                forward_lista(&aux);}}}}
+                                forward_lista(&l);}}}}
             else{
-                forward_lista(&aux);
+                forward_lista(&l);
                 }
 
                             }
@@ -47,9 +49,10 @@ void empleado_del_mes(lista_pedidos l,int mes,int id_emp1,int id_emp2,int id_emp
             }
     }
     else{
-        printf(("error,la lista esta vacia\n"));
+        printf(("No hay ventas hechas.\n"));
         }
 }
+
 void muestra_pedxnomb(lista_pedidos l,char c[]){
         int boo=0;
         if(!isEmpty(l)){
@@ -65,22 +68,25 @@ void muestra_pedxnomb(lista_pedidos l,char c[]){
                     printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
                     system("pause");
                     system("cls");
-                    forward_lista(&aux);
+                    forward_lista(&l);
                 }
                 else{
-                    forward_lista(&aux);
+                    forward_lista(&l);
                 }
             }
+
+            if(boo==0){
+            printf("No se ha encontrado el cliente\n");
+            }
+            else{
+                printf("Cliente encontrado con exito\n");
+            }
+            
         }
         else{
             printf("la lista esta vacia\n");
         }
-        if(boo==0){
-            printf("No se ha encontrado el cliente\n");
-        }
-        else{
-            printf("Cliente encontrado con exito\n");
-        }
+        
     }
 
 void muestra_combos_sin_stock(combo arr[]){
@@ -88,19 +94,21 @@ void muestra_combos_sin_stock(combo arr[]){
     printf("Combos sin stock:\n");
     for(i=0;i<10;i++){
         if(muestrastock(arr[i])==0){
-            printf("   -Id: %d\n",i);
-            printf("   -Descripcion: %s.\n",muestradescripcion(arr[i]));
-            printf("   -Stock: %d.\n",muestrastock(arr[i]));
-            printf("   -Precio: %.2f.\n",muestraprecio(arr[i]));
-            if(muestradescuento(arr[i])==1)
-                printf("   -Tiene descuento.\n");
-            else
-                printf("   -No tiene descuento.\n");
-            printf("\n\n");
+
+            printf("\n   ---------------------------");
+            printf("\n     ");
+            printf("id: %d | %s", i, muestradescripcion(combos_ing[i]));
+            printf("\n     ");
+            printf("stock: %d | ", get_combo_stock(combos_ing, i));
+            printf("precio: %.2f | ", muestraprecio(combos_ing[i]));
+            printf("descuento: ");
+            if (muestradescuento(combos_ing[i]) == 1) printf("si");
+            else printf("no");
+            
             boo=1;
         }
     }
-    if(boo==1)
+    if(boo!=1)
         printf(" No hay combos sin stock\n");
     system("pause");
     system("cls");
