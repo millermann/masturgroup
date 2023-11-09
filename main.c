@@ -7,6 +7,8 @@
 
 int var_glob_vend_id;
 
+int boo6=0;
+
 void cargar_pedido(lista_pedidos *lista_ing, combo combos_ing[]);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
@@ -312,7 +314,10 @@ int main()
     mod_vend_id(1);
     init_lista(&pedidos);
     precarga_combos(combos_del_dia);
-
+    
+    int mes;
+    char nomb[25],id_pedido[8];
+    
     int opcion=-1;
 
     while(opcion != 0)
