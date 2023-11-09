@@ -585,8 +585,8 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
             insert_lista(lista_ing, pre_carga);
             printf("\n - Se ha cargado el pedido...\n");
         }
-        printf("\n Desea seguir cargando datos?... (1=si / 0=no): ");
-        scanf("%d", &salir_iter);
+        printf("\n Desea volver al menu?... (1=si / 0=no): ");
+        scanf("%d", &pedido_confirm);
     }
 
 }
