@@ -369,11 +369,11 @@ int main()
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
         //funciones de mostrar
         printf("\n  (3) Mostrar pedido por ID Pedido");
-        printf("\n  (4) Mostrar todo los pedidos cargados.");
-        printf("\n  (5) Mostrar todos los pedidos por mes.");
-        printf("\n  (6) Mostrar todos los pedidos por nombre.");
-        printf("\n  (7) Mostrar todos los pedidos de un vendedor.");
-        printf("\n  (8) Mostrar todos los pedidos no entregados.");
+        printf("\n  (4) Mostrar pedidos cargados.");
+        printf("\n  (5) Mostrar pedidos por mes.");
+        printf("\n  (6) Mostrar pedidos por nombre.");
+        printf("\n  (7) Mostrar pedidos segun vendedor.");
+        printf("\n  (8) Mostrar pedidos no entregados.");
         printf("\n  (9) Mostrar todos los combos.");
         printf("\n  (10) Mostrar precio y stock de un combo por idcombo.");
         printf("\n  (11) Mostrar los combos sin stock.");
@@ -428,11 +428,20 @@ int main()
             }
 
             case 3: { // f-c
+
                 char id_pedido_ing[strsize];
-                printf("\n Ingrese id pedido: ");
+                system("cls");
+                printf("\n # # # #   M O S T R A R   P E D I D O   P O R   I D   # # # #\n");
+                if (isEmpty(pedidos) == 1){
+                    printf("\n # No hay pedidos cargados en la base...");
+                    printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
+                    break;
+                }
+                printf("\n Ingrese el ID del pedido: ");
                 scanf("%s", id_pedido_ing);
+
                 if (buscar_x_idped(&pedidos, id_pedido_ing) == 1) mostrar_pedido(copy_lista(pedidos));
-                else printf("\n No se encontro en la base...");
+                else printf("\n # El pedido no se encontro en la base...");
 
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
@@ -675,82 +684,178 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
         char str_ing1[strsize], str_ing2[strsize];
 
         system("cls");
-        printf("\n # # # #   C A R G A R   D A T O S   # # # #");
-        printf("\n - Ing. solamente el nombre: "); scanf("%s", str_ing1);
-        printf("\n - Ing. el apellido: "); scanf("%s", str_ing2);
+        printf("\n # # # #   C A R G A R   D A T O S   # # # #\n");
+        printf("\n - Ingrese el nombre completo: "); scanf("%s %s", str_ing1, str_ing2);
         set_nombre(&pre_carga, str_ing1, str_ing2);
         set_pedido_id(&pre_carga, gen_pedido_id());
         set_vend_id(&pre_carga, var_glob_vend_id);
-        printf("\n M E N U ");
 
-        mostrar_combos(combos_del_dia);
         while (salir_iter != 0)
         {
-            printf("\n\t + Ing. combo id (0-%d): ", num_combos-1); check_resp = scanf("%d", &num_ing1);
+            system("cls");
+            printf("\n # # # #   C A R G A R   D A T O S   # # # #");
+            printf("\n\n            ");
+            printf("# # # # #  M E N U  # # # # #");
+            mostrar_combos(combos_del_dia);
+            printf("\n\n   + Ingrese ID del combo: ");
+            check_resp = scanf("%d", &num_ing1);
+            while (num_ing1 < 0 || num_ing1 > (num_combos-1) || check_resp != 1){
+                printf("\n\a   # ID no valido...");
+                printf("\n\n   + Ingrese ID del combo: ");
+                fflush(stdin);
+                check_resp = scanf("%d", &num_ing1);
+            }
 
-            //controlar stock
+            printf("\n   + Ingrese la cantidad de unidades del combo %d: ", num_ing1);
+            check_resp = scanf("%d", &num_ing2);
+            while (check_resp != 1){
+                printf("\n\t\a # Respuesta no valida...");
+                printf("\n   + Ingrese la cantidad de unidades del combo %d: ", num_ing1);
+                fflush(stdin);
+                check_resp = scanf("%d", &num_ing2);
+            }
 
-            printf("\n\t + Ing. la cantidad de unidades del combo %d: ", num_ing1); check_resp = scanf("%d", &num_ing2);
-            set_comb_pedidos(&pre_carga, num_ing1, num_ing2);
-            printf("\n\t - Desea seguir ingresando combos? (1=si / 0=no): "); check_resp = scanf("%d", &salir_iter);
+            if (num_ing2 > muestrastock(combos_del_dia[num_ing1])){
+                printf("\n   # No hay stock suficiente...");
+            }
+            else set_comb_pedidos(&pre_carga, num_ing1, num_ing2);
+
+            printf("\n - Desea seguir ingresando combos? (1=si / 0=no): ");
+            check_resp = scanf("%d", &salir_iter);
+            while (salir_iter != 1 && salir_iter != 0 || check_resp != 1){
+                printf("\n\a # Respuesta no valida...");
+                printf("\n - Desea seguir ingresando combos? (1=si / 0=no): ");
+                fflush(stdin);
+                check_resp = scanf("%d", &salir_iter);
+            }
         }
+        system("cls");
+        printf(" # # # #   C A R G A R   D A T O S   # # # #\n");
 
-        printf("\n - Consume en el local? (1=si / 0=no): "); scanf("%d", &num_ing1);
+        printf("\n - Consume en el local? (1=si / 0=no): ");
+        check_resp = scanf("%d", &num_ing1);
+        while (num_ing1 != 1 && num_ing1 != 0 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Consume en el local? (1=si / 0=no): ");
+            fflush(stdin);
+            check_resp = scanf("%d", &num_ing1);
+        }
         set_consum_local(&pre_carga, num_ing1);
 
 
         printf("\n - Ingrese forma de pago:");
-        printf("\n\t (1) Debito, (2) Credito, (3) QR, (4) Efectivo\n - Resp: "); scanf("%d", &num_ing1);
+        printf("\n\t (1) Debito, (2) Credito, (3) QR, (4) Efectivo\n - Resp: ");
+        check_resp = scanf("%d", &num_ing1);
+        while (num_ing1 < 1 || num_ing1 > 4 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Ingrese forma de pago:");
+            printf("\n\t (1) Debito, (2) Credito, (3) QR, (4) Efectivo\n - Resp: ");
+            fflush(stdin);
+            check_resp = scanf("%d", &num_ing1);
+        }
         set_forma_pago(&pre_carga, num_ing1);
 
-        printf("\n - Ingrese fecha de compra:");
-        printf("\n\t + Dia: "); fflush(stdin); check_resp = scanf("%d", &num_ing1);
-        while (num_ing1 < fecha_actual->tm_mday || num_ing1 > 31 || check_resp != 1){
-            printf("\n\a  # Dia ingresado no valido...");
+        printf("\n - Fecha de compra:");
+        printf("\n\t (1) Cargar fecha actual, (2) Introducir manualmente\n + Resp: ");
+        check_resp = scanf("%d", &num_ing1);
+        while (num_ing1 != 1 && num_ing1 != 2 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Fecha de compra:");
+            printf("\n\t (1) Cargar automaticamente la fecha actual, (2) Introducirla manualmente\n + Resp: ");
             fflush(stdin);
-            printf("\n\t + Dia: "); check_resp = scanf("%d", &num_ing1);
+            check_resp = scanf("%d", &num_ing1);
         }
-        set_fec_compra_dia(&pre_carga, num_ing1);
+        switch (num_ing1){
+            case 1:{
+                set_fec_compra_dia(&pre_carga, fecha_actual->tm_mday);
+                set_fec_compra_mes(&pre_carga, fecha_actual->tm_mon+1);
+                set_fec_compra_anio(&pre_carga, fecha_actual->tm_year+1900);
+                break;
+            }
+            case 2:{
+                printf("\n - Ingrese fecha de compra:");
+                printf("\n\t + Dia: "); check_resp = scanf("%d", &num_ing1);
+                while (num_ing1 < fecha_actual->tm_mday || num_ing1 > 31 || check_resp != 1){
+                    printf("\n\a  # Dia ingresado no valido...");
+                    printf("\n\t + Dia: ");
+                    fflush(stdin);
+                    check_resp = scanf("%d", &num_ing1);
+                }
+                set_fec_compra_dia(&pre_carga, num_ing1);
 
-        printf("\n\t + Mes: "); fflush(stdin); check_resp = scanf("%d", &num_ing1);
-        while (num_ing1 < (fecha_actual->tm_mon)+1 || num_ing1 > 12 || check_resp != 1){
-            printf("\n\a # Mes ingresado no valido...");
-            printf("\n\t + Mes: "); check_resp = scanf("%d", &num_ing1);
-        }
-        set_fec_compra_mes(&pre_carga, num_ing1);
+                printf("\n\t + Mes: "); check_resp = scanf("%d", &num_ing1);
+                while (num_ing1 < (fecha_actual->tm_mon)+1 || num_ing1 > 12 || check_resp != 1){
+                    printf("\n\a # Mes ingresado no valido...");
+                    printf("\n\t + Mes: ");
+                    fflush(stdin);
+                    check_resp = scanf("%d", &num_ing1);
+                }
+                set_fec_compra_mes(&pre_carga, num_ing1);
 
-        printf("\n\t + Anio: "); fflush(stdin); check_resp = scanf("%d", &num_ing1);
-        while (num_ing1 < (fecha_actual->tm_year)+1900 || check_resp != 1){
-            printf("\n\a  # Anio ingresado no valido...");
-            printf("\n\t + Anio: "); check_resp = scanf("%d", &num_ing1);
+                printf("\n\t + Anio: "); check_resp = scanf("%d", &num_ing1);
+                while (num_ing1 < (fecha_actual->tm_year)+1900 || check_resp != 1){
+                    printf("\n\a  # Anio ingresado no valido...");
+                    printf("\n\t + Anio: ");
+                    fflush(stdin);
+                    check_resp = scanf("%d", &num_ing1);
+                }
+                set_fec_compra_anio(&pre_carga, num_ing1);
+            }
         }
-        set_fec_compra_anio(&pre_carga, num_ing1);
 
         printf("\n - Se entrego el pedido? (1=si / 0=no): ");
-        fflush(stdin); check_resp = scanf("%d", &num_ing1);
+        check_resp = scanf("%d", &num_ing1);
+        while (num_ing1 != 1 && num_ing1 != 0 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Se entrego el pedido? (1=si / 0=no): ");
+            fflush(stdin);
+            check_resp = scanf("%d", &num_ing1);
+        }
         set_entregado(&pre_carga, num_ing1);
 
-        printf("\n - Posee cupon de descuento? (1=si / 0=no): "); scanf("%d", &num_ing1);
+        printf("\n - Posee cupon de descuento? (1=si / 0=no): ");
+        check_resp = scanf("%d", &num_ing1);
+        while (num_ing1 != 1 && num_ing1 != 0 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Posee cupon de descuento? (1=si / 0=no): ");
+            fflush(stdin);
+            check_resp = scanf("%d", &num_ing1);
+        }
         set_cup_descuento(&pre_carga, num_ing1);
 
         monto = calcular_subtotal_combos(combos_del_dia, get_comb_pedidos(pre_carga), get_cup_descuento(pre_carga));
-
         set_subtotal(&pre_carga, monto);
 
         if (get_consum_local(pre_carga) == 0) monto += costo_delivery;
         set_total(&pre_carga, monto);
 
         mostrar_pedido(pre_carga);
+
         printf("\n\n # Desea confirmar el pedido?... (1=si / 0=no): ");
-        scanf("%d", &pedido_confirm);
+        check_resp = scanf("%d", &pedido_confirm);
+        while (pedido_confirm != 1 && pedido_confirm != 0 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n\n # Desea confirmar el pedido?... (1=si / 0=no): ");
+            fflush(stdin);
+            check_resp = scanf("%d", &pedido_confirm);
+        }
+
         if (pedido_confirm == 1){
             insert_lista(lista_ing, pre_carga);
+            actualizar_combos_stock(combos_del_dia, get_comb_pedidos(pre_carga));
             printf("\n - Se ha cargado el pedido...\n");
         }
-        printf("\n Desea volver al menu?... (1=si / 0=no): ");
-        scanf("%d", &pedido_confirm);
+        system("cls");
+        printf(" # # # #   C A R G A R   D A T O S   # # # #\n");
+        printf("\n - Desea volver al menu?... (1=si / 0=no): ");
+        check_resp = scanf("%d", &pedido_confirm);
+        while (pedido_confirm != 1 && pedido_confirm != 0 || check_resp != 1){
+            printf("\n\a # Respuesta no valida...");
+            printf("\n - Desea volver al menu?... (1=si / 0=no): ");
+            fflush(stdin);
+            check_resp = scanf("%d", &pedido_confirm);
+        }
     }
-
 }
 
 void export_pedido(pedido ped_ing) // f-l //implementar en el main
@@ -890,7 +995,7 @@ void import_pedidos(lista_pedidos *lista_ing) // f-m
         reset_lista(lista_ing); // necesario?
 
         char pedido_id[idsize], nomb[strsize], ape[strsize], separador[20];
-        int vend_id, comb_pedidos[num_combos], consum_local, forma_pago, entregado, cup_descuento = 0, i;
+        int vend_id, comb_pedidos[num_combos], consum_local, forma_pago, entregado, cup_descuento = 0, i, ped_no_cargados=0;
         float subtotal, total;
 
         fecha fec_compra;
@@ -938,12 +1043,23 @@ void import_pedidos(lista_pedidos *lista_ing) // f-m
             set_forma_pago(&nuevo_pedido, forma_pago);
             set_entregado(&nuevo_pedido, entregado);
             set_cup_descuento(&nuevo_pedido, cup_descuento);
-
+            /*
             insert_lista(lista_ing, nuevo_pedido);
-
             mostrar_pedido(copy_lista(*lista_ing));
+            */
+            if (actualizar_combos_stock(combos_del_dia, get_comb_pedidos(nuevo_pedido)) == 0){
+                insert_lista(lista_ing, nuevo_pedido);
+                mostrar_pedido(copy_lista(*lista_ing));
+            }
+            else{
+                ped_no_cargados += 1;
+                printf("\n    #####################################################################################");
+                printf("\n    #### Pedido %s no fue cargado. No hay stock suficiente para subir la carga ####", get_pedido_id(nuevo_pedido));
+                printf("\n    #####################################################################################");
+            }
             printf("\n");
         }
+        if (ped_no_cargados > 0) printf("\n\a #### ATENCION: Hay %d pedido/s no cargados, consulte las lineas anteriores... ####", ped_no_cargados);
         fclose(pedidos_importados);
     }
     printf("\n\n - Pulse una tecla para volver al menu...");
@@ -974,13 +1090,13 @@ void precarga_combos(combo combos_del_dia[]) // f-enie
 void mostrar_combos(combo combos_ing[]){ // f-p
     int i;
     for (i=0; i<num_combos; i++){
-        printf("\n   ---------------------------");
+        printf("\n   -------------------------------------------------");
         printf("\n     ");
-        printf("id: %d | %s", i, muestradescripcion(combos_ing[i]));
+        printf("ID: %d | %s", i, muestradescripcion(combos_ing[i]));
         printf("\n     ");
-        printf("stock: %d | ", get_combo_stock(combos_ing, i));
-        printf("precio: %.2f | ", muestraprecio(combos_ing[i]));
-        printf("descuento: ");
+        printf("Stock: %d | ", get_combo_stock(combos_ing, i));
+        printf("Precio: $ %.2f | ", muestraprecio(combos_ing[i]));
+        printf("Descuento: ");
         if (muestradescuento(combos_ing[i]) == 1) printf("si");
         else printf("no");
     }
