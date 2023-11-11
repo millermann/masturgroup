@@ -18,100 +18,102 @@ void mostrar_pedido(pedido ped_ing);
 
 
 void empleado_del_mes(lista_pedidos l,int mes){
-
-            pedido aux;
-            int cont_vend1=0,cont_vend2=0,cont_vend3=0,auxd;
-            reset_lista(&l);
-            while(!isOos(l)){
-                aux=copy_lista(l);
-                if(get_fec_compra_mes(aux)==mes){
-                     switch(get_vend_id(aux)){
+    pedido aux;
+    int cont_vend1=0,cont_vend2=0,cont_vend3=0,auxd;
+    reset_lista(&l);
+    while(!isOos(l))
+    {
+        aux=copy_lista(l);
+        if(get_fec_compra_mes(aux)==mes)
+        {
+            switch(get_vend_id(aux))
+            {
             case 1:
                 cont_vend1++;
-                forward_lista(&l);break;
+                forward_lista(&l);
+                break;
             case 2:
                 cont_vend2++;
-                forward_lista(&l);break;
+                forward_lista(&l);
+                break;
             case 3:
                 cont_vend3++;
-                forward_lista(&l);break;
-              }
-                }
-            else{
                 forward_lista(&l);
-            }
-
-        }
-        if((cont_vend1>cont_vend2)&&cont_vend1>cont_vend3){
-            printf("El empleado 1 es el que mas vendio en el mes\n");
-            auxd=1;
-        }
-        else{
-            if((cont_vend2>cont_vend1)&&cont_vend2>cont_vend3){
-                printf("El empleado 2 es el que mas vendio en el mes\n");
-                auxd=2;
-            }
-            else{
-                printf("El empleado 3 es el que mas vendio en el mes\n");
-                auxd=3;
+                break;
             }
         }
-        if((cont_vend1==cont_vend2)&&(cont_vend1==cont_vend3)){
-            printf("Los tres empleados tienen la misma cantidad de pedidos realizados\n");
-
-        }
-        else{
-            if(cont_vend1==cont_vend2 && auxd!=3 ){
-                printf("¡Empleado 1 y empleado 2 son los empleados del mes!\n");
-            }
-            else{
-                if(cont_vend3==cont_vend2 && auxd!=1){
-                    printf("¡Empleado 2 y empleado 3 son los empleados del mes!\n");
-                }
-                else{
-                    if(cont_vend1==cont_vend3 && auxd!=2){
-                        printf("¡Empleado 1 y empleado 3 son los empleados del mes!\n");
-                    }
-                }
-            }
+        else
+        {
+            forward_lista(&l);
         }
 
     }
-
-void muestra_pedxnomb(lista_pedidos l,char c[]){
-        int boo=0;
-        if(!isEmpty(l)){
-            pedido aux;
-            reset_lista(&l);
-            while(!isOos(l)){
-                aux=copy_lista(l);
-                if(strcmp(get_nomb(aux),c)==0){
-                        boo=1;
-                    printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
-                    printf("el pedido de %s %s es:\n",get_nomb(aux),get_ape(aux));
-                    mostrar_pedido(aux);
-                    printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
-                    system("pause");
-                    system("cls");
-                    forward_lista(&l);
-                }
-                else{
-                    forward_lista(&l);
-                }
-            }
-
-            if(boo==0){
-            printf("No se ha encontrado el cliente\n");
-            }
-            else{
-                printf("Cliente encontrado con exito\n");
-            }
-
+    if((cont_vend1>cont_vend2)&&cont_vend1>cont_vend3)
+    {
+        printf("El empleado 1 es el que mas vendio en el mes\n");
+        auxd=1;
+    }
+    else
+    {
+        if((cont_vend2>cont_vend1)&&cont_vend2>cont_vend3)
+        {
+            printf("El empleado 2 es el que mas vendio en el mes\n");
+            auxd=2;
         }
-        else{
-            printf("No hay pedidos\n");
+        else
+        {
+            printf("El empleado 3 es el que mas vendio en el mes\n");
+            auxd=3;
         }
+    }
+    if((cont_vend1==cont_vend2)&&(cont_vend1==cont_vend3))
+    {
+        printf("Los tres empleados tienen la misma cantidad de pedidos realizados\n");
 
+    }
+    else
+    {
+        if(cont_vend1==cont_vend2 && auxd!=3 )
+        {
+            printf("¡Empleado 1 y empleado 2 son los empleados del mes!\n");
+        }
+        else
+        {
+            if(cont_vend3==cont_vend2 && auxd!=1)
+            {
+                printf("¡Empleado 2 y empleado 3 son los empleados del mes!\n");
+            }
+            else
+            {
+                if(cont_vend1==cont_vend3 && auxd!=2)
+                {
+                    printf("¡Empleado 1 y empleado 3 son los empleados del mes!\n");
+                }
+            }
+        }
+    }
+
+}
+
+int muestra_pedxnomb(lista_pedidos l, char c[]){ // f-e
+    int boo=0;
+    pedido aux;
+    reset_lista(&l);
+    while(!isOos(l)){
+        aux=copy_lista(l);
+        if (strcmp(get_nomb(aux),c)==0){
+            boo=1;
+            system("cls");
+            printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   N O M B R E   # # # #\n");
+            printf("\n - Nombre: %s\n", c);
+            mostrar_pedido(aux);
+            printf("\n\n - Pulse para continuar..."); fflush(stdin); getchar();
+            forward_lista(&l);
+        }
+        else forward_lista(&l);
+    }
+    if (boo == 1) return 0;
+    else return 1;
 }
 
 void muestra_combos_sin_stock(combo combos_ing[]){
@@ -234,18 +236,18 @@ void muestra_por_mes(lista_pedidos l,int mes){//D
 
     system("pause");
     system("cls");
- }
+}
 
 void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing){// f-f
     // hacer un reset_lista en el main
-    if (!isOos(lista_ing)){
+    if (isOos(lista_ing)!=1){
         if (get_vend_id(copy_lista(lista_ing)) == vend_id_ing){
             printf("\n    ###################################");
             printf("\n     + Pedido ID: %s", get_pedido_id(copy_lista(lista_ing)));
             printf("\n    -----------------------------------");
             printf("\n     - Total: %.2f", get_total(copy_lista(lista_ing)));
             printf("\n    -----------------------------------\n");
-            boo6=1;
+             boo6=1;
         }
         forward_lista(&lista_ing);
         mostrar_pedido_por_vendedor(lista_ing, vend_id_ing);
@@ -334,7 +336,7 @@ void modificar_estado_por_id(lista_pedidos *l,char n[]){
 int main()
 {
     int opcion=-1, check_resp=0, mes;
-    char nomb[25],id_pedido[8];
+    char nomb[strsize], id_pedido[idsize];
     lista_pedidos pedidos;
     if (mod_vend_id(1) == 1){
         printf("\n\a # No se pudo recuperar el ID del ultimo vendedor, por favor ingrese el ID de vendedor: ");
@@ -346,7 +348,6 @@ int main()
             fflush(stdin);
             check_resp = scanf("%d", &var_glob_vend_id);
         }
-
         mod_vend_id(2);
         printf("\n # ID cargado correctamente.");
         printf("\n\n - Pulse para continuar..."); fflush(stdin); getchar();
@@ -359,7 +360,7 @@ int main()
     fecha_actual = localtime(&ahora);
 
 
-    while(opcion != 0)
+    while (opcion != 0)
     {
         system("cls");
         printf("\n # # # #  M E N U  # # # #\n");
@@ -429,7 +430,6 @@ int main()
             }
 
             case 3: { // f-c
-
                 char id_pedido_ing[strsize];
                 system("cls");
                 printf("\n # # # #   M O S T R A R   P E D I D O   P O R   I D   # # # #\n");
@@ -448,23 +448,26 @@ int main()
                 break;
             }
 
-            case 4: {
-                reset_lista(&pedidos);
+            case 4: { // f-adic
                 system("cls");
-                if (isEmpty(pedidos)!=1){
+                printf("\n # # # #   M O S T R A R   T O D O S   L O S   P E D I D O S   # # # #\n");
+
+                reset_lista(&pedidos);
+                if (isEmpty(pedidos) == 1){
+                    printf("\n\a # No hay pedidos cargados en la base...");
+                }
+                else{
                     while(isOos(pedidos) != 1){
                         mostrar_pedido(copy_lista(pedidos));
                         printf("\n");
                         forward_lista(&pedidos);
                     }
                 }
-                else
-                    printf("-No hay pedidos cargados");
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
 
-            case 5://Mostrar todos los pedidos por mes
+            case 5:// f-d, Mostrar todos los pedidos por mes, no anda
                 system("cls");
                 if(!isEmpty(pedidos)){
                 do{ printf("Ingrese numero de mes que desea mostrar: ");
@@ -477,17 +480,28 @@ int main()
                     printf("\n # No hay pedidos cargados en la base...");
                 break;
 
-            case 6://Mostrar todos los pedidos por nombre.
+            case 6:// f-e, Mostrar todos los pedidos por nombre.
                 system("cls");
-                if(!isEmpty(pedidos)){
-                printf("Ingrese nombre: ");
-                scanf(" %s",nomb);
-                system("cls");
+                printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   N O M B R E   # # # #\n");
 
-                muestra_pedxnomb(pedidos,nomb);
+
+                if (isEmpty(pedidos) == 1){
+                    printf("\n\a # No hay pedidos cargados en la base...");
                 }
-                else
-                    printf("\n # No hay pedidos cargados en la base...");
+                else{
+                    printf("\n - Ingrese nombre: ");
+                    scanf("%s",nomb);
+                    if (muestra_pedxnomb(pedidos, nomb) == 1){
+                        printf("\n\a # No se encontro el nombre dentro de los pedidos cargados en la base...");
+                    }
+                    else{
+                        system("cls");
+                        printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   N O M B R E   # # # #\n");
+                        printf("\n\a # No hay mas pedidos cargados en la base...");
+                    }
+
+                }
+                printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
 
             case 7://NO se si está bien hecho //Mostrar todos los pedidos de un vendedor
@@ -518,6 +532,7 @@ int main()
                 system("pause");
                 system("cls");
                 break;
+
             case 8: //Mostrar todos los pedidos no entregados
                 system("cls");
                 if(!isEmpty(pedidos)){
@@ -526,19 +541,21 @@ int main()
                 else
                     printf("\n # No hay pedidos cargados en la base...");
                 break;
+
             case 9://Mostrar todos los combos.
                 system("cls");
                 mostrar_combos(combos_del_dia);
                 system("pause");
                 system("cls");
                 break;
+
             case 10://Mostrar precio y stock de un combo por idcombo
                 system("cls");
                 mostrar_pecio_y_stock(combos_del_dia);
                 break;
 
             case 11://Mostrar los combos sin stock.
-                system("cls");
+            system("cls");
                 muestra_combos_sin_stock(combos_del_dia);
                 break;
 
@@ -577,7 +594,7 @@ int main()
                 break;
 
             case 14://Modificar la forma de pago de un pedido según su idpedido.
-                system("cls");
+                 system("cls");
                 if(!isEmpty(pedidos)){
                 int form_pago;
                 do{
@@ -602,7 +619,7 @@ int main()
                 //NO La entendi a la funcion
                 break;
 
-            case 15://Modificar nombre de un pedido según su idpedido
+            case 15:{//Modificar nombre de un pedido según su idpedido
                 system("cls");
                 if(!isEmpty(pedidos)){
                     printf("Ingrese el ID del pedido: ");
@@ -614,54 +631,107 @@ int main()
                 }
                     printf("\n # No hay pedidos cargados en la base...");
                 break;
-
-            case 16://Modificar precio y stock del combo según idcombo
+            }
+            case 16:{//Modificar precio y stock del combo según idcombo
                     system("cls");
                     modifica_precio_y_stock_de_combo(combos_del_dia);
 
                 break;
-
+            }
 
             case 17: {
                 import_pedidos(&pedidos);
                 break;
             }
 
-            case 18: {
-                char id_pedido_ing[idsize];
-                printf("\n Ingrese id pedido: ");
-                scanf("%s", id_pedido_ing);
-
-                if (buscar_x_idped(&pedidos, id_pedido_ing) == 1){
-
-                    export_pedido(copy_lista(pedidos));
-                    supress_lista(&pedidos);
-                    printf("\n Pedido %s anulado y exportado...", id_pedido_ing);
+            case 18: { // f-l, Anular y exportar por id pedido
+                system("cls");
+                printf("\n # # # #   A N U L A R   Y   E X P O R T A R   P O R   I D   P E D I D O   # # # #\n");
+                if (isEmpty(pedidos) == 1){
+                    printf("\n # No hay pedidos cargados en la base...");
                 }
-                else printf("\n No se encontro en la base...");
+                else{ // solo anda en el debug (?)
+                    char nombre_archivo[strsize];
+
+                    printf("\n - Ingrese el ID del pedido: ");
+                    scanf("%s", id_pedido);
+                    if (buscar_x_idped(&pedidos, id_pedido) == 1){
+                        mostrar_pedido(copy_lista(pedidos));
+
+                        printf("\n\n - Ingrese el nombre del archivo en donde se va exportar el pedido...");
+                        printf("\n\t * El nombre no debe contener espacios. ");
+                        printf("\n\t * Puede presionar 1 para guardar en la ruta por defecto. ");
+                        printf("\n + Resp.: ");
+                        scanf("%s", nombre_archivo);
+                        if (strcmp(nombre_archivo, "1") == 0){
+                            strcpy(nombre_archivo, "pedidos_export.txt");
+                        }
+                        export_pedido(copy_lista(pedidos), nombre_archivo);
+                        supress_lista(&pedidos);
+                        system("cls");
+                        printf("\n # # # #   A N U L A R   Y   E X P O R T A R   P O R   I D   P E D I D O   # # # #\n");
+                        printf("\n # Pedido %s anulado y exportado en %s...", id_pedido, nombre_archivo);
+                    }
+                    else printf("\n No se encontro en la base...");
+                }
+
+                /* anda en el debug y release, por las dudas lo dejo
+                else{
+                    printf("\n - Ingrese el ID del pedido: ");
+                    scanf("%s", id_pedido);
+                    if (buscar_x_idped(&pedidos, id_pedido) == 1){
+                        mostrar_pedido(copy_lista(pedidos));
+                        printf("\n - Ingrese sape: ");
+                        export_pedido(copy_lista(pedidos), "pedidos_export.txt");
+                        supress_lista(&pedidos);
+                        printf("\n\n Pedido %s anulado y exportado en pedidos_export.txt...", id_pedido);
+                    }
+                    else printf("\n No se encontro en la base...");
+                }
+                */
 
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            case 19:{
-                 int form_pago, resultado;
+
+            case 19:{ // f-ll, Exportar pedido por form_pago
+                int form_pago, resultado;
 
                 system("cls");
-
-                printf("\n - ingrese la forma de pago. ");
-                printf("\n (1) Debito, (2) Credito, (3) QR, (4) Efectivo");
-                printf("\n + Resp: "); scanf("%d", &form_pago);
-
-                resultado = export_pedidosxformpago(pedidos, form_pago);
-                if (resultado == 0) printf("\n # No hay pedidos cargados que correspondan a la forma ingresada...");
-                else printf("\n # Se exportaron %d pedido/s... ", resultado);
-
+                printf("\n # # # #    E X P O R T A R   P O R   F O R M A   D E   P A G O   # # # #\n");
+                if (isEmpty(pedidos) == 1){
+                    printf("\n # No hay pedidos cargados en la base...");
+                }
+                else{
+                    printf("\n - Ingrese la forma de pago. ");
+                    printf("\n\t (1) Debito, (2) Credito, (3) QR, (4) Efectivo");
+                    printf("\n + Resp.: ");
+                    check_resp = scanf("%d", &form_pago);
+                    while (form_pago < 1 || form_pago > 4 || check_resp != 1){
+                        system("cls");
+                        printf("\n # # # #    E X P O R T A R   P O R   F O R M A   D E   P A G O   # # # #\n");
+                        printf("\n\a # Respuesta no valida...");
+                        printf("\n - Ingrese forma de pago:");
+                        printf("\n\t (1) Debito, (2) Credito, (3) QR, (4) Efectivo\n - Resp: ");
+                        fflush(stdin);
+                        check_resp = scanf("%d", &form_pago);
+                    }
+                    reset_lista(&pedidos);
+                    resultado = export_pedidosxformpago(pedidos, form_pago);
+                    switch (resultado){
+                        case -1:
+                            printf("\n\a # Ocurrio un error con el archivo..."); break;
+                        case 0:
+                            printf("\n # No hay pedidos cargados que correspondan a la forma ingresada..."); break;
+                        default:
+                            printf("\n # Se exportaron %d pedido/s en el archivo export_pedidos_formpago.txt... ", resultado);
+                    }
+                }
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
         }
     }
-
     return 7;
 }
 
@@ -876,25 +946,22 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
     }
 }
 
-void export_pedido(pedido ped_ing) // f-l //implementar en el main
+void export_pedido(pedido ped_ing, char nombre_del_archivo[]) // f-l //implementar en el main
 {
     int i;
-    FILE *fp = fopen("pedidos_export.txt", "a");
+    FILE *fp = fopen(nombre_del_archivo, "a");
 
-
+    fprintf(fp, "%s %s\n", get_nomb(ped_ing), get_ape(ped_ing));
     fprintf(fp, "%s \n", get_pedido_id(ped_ing));
     fprintf(fp, "%d \n", get_vend_id(ped_ing));
-    fprintf(fp, "%d %d %d \n", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
-    fprintf(fp, "%s %s\n", get_nomb(ped_ing), get_ape(ped_ing));
     for (i=0; i<num_combos; i++){
-        fprintf(fp, "%d ", get_comb_pedidos(ped_ing)[i]);
+        fprintf(fp, "%d\n", get_comb_pedidos(ped_ing)[i]);
     }
-    fprintf(fp, "\n");
-    fprintf(fp, "%d \n", get_consum_local(ped_ing));
-    fprintf(fp, "%d \n", get_cup_descuento(ped_ing));
-    fprintf(fp, "%.2f \n", get_subtotal(ped_ing));
-    fprintf(fp, "%.2f \n", get_total(ped_ing));
     fprintf(fp, "%d \n", get_forma_pago(ped_ing));
+    fprintf(fp, "%.2f \n", get_subtotal(ped_ing));
+    fprintf(fp, "%d \n", get_consum_local(ped_ing));
+    fprintf(fp, "%.2f \n", get_total(ped_ing));
+    fprintf(fp, "%d \n%d \n%d \n", get_fec_compra_dia(ped_ing), get_fec_compra_mes(ped_ing), get_fec_compra_anio(ped_ing));
     fprintf(fp, "%d ", get_entregado(ped_ing));
     fprintf(fp, "\n---\n");
     fclose(fp);
@@ -910,13 +977,13 @@ int export_pedidosxformpago(lista_pedidos lista_ing, int form_pago) // f-ll //im
 
     while(isOos(lista_ing) != 1){
         if (get_forma_pago(copy_lista(lista_ing)) == form_pago){
-            fprintf(fp, "%s %s\n", get_nomb(copy_lista(lista_ing)), get_ape(copy_lista(lista_ing)));
-            fprintf(fp, "%s \n", get_pedido_id(copy_lista(lista_ing)));
-            fprintf(fp, "%d \n", get_vend_id(copy_lista(lista_ing)));
+            fprintf(fp, "Nombre: %s %s\n", get_nomb(copy_lista(lista_ing)), get_ape(copy_lista(lista_ing)));
+            fprintf(fp, "ID Pedido: %s \n", get_pedido_id(copy_lista(lista_ing)));
+            fprintf(fp, "ID Vendedor: %d \n", get_vend_id(copy_lista(lista_ing)));
             for (i=0; i<num_combos; i++){
-                fprintf(fp, "%d\n", get_comb_pedidos(copy_lista(lista_ing))[i]);
+                fprintf(fp, "ID COMBO: %d -> unidades: %d\n", i, get_comb_pedidos(copy_lista(lista_ing))[i]);
             }
-
+            fprintf(fp, "Pagado con ");
             switch (get_forma_pago(copy_lista(lista_ing))){
                 case 1:{
                     fprintf(fp, "DEBITO \n"); break;
@@ -932,7 +999,7 @@ int export_pedidosxformpago(lista_pedidos lista_ing, int form_pago) // f-ll //im
                 }
             }
 
-            fprintf(fp, "%.2f \n", get_subtotal(copy_lista(lista_ing)));
+            fprintf(fp, "Subtotal: %.2f \n", get_subtotal(copy_lista(lista_ing)));
 
             switch (get_consum_local(copy_lista(lista_ing))){
                 case 1:{
@@ -943,8 +1010,10 @@ int export_pedidosxformpago(lista_pedidos lista_ing, int form_pago) // f-ll //im
                 }
             }
 
-            fprintf(fp, "%.2f \n", get_total(copy_lista(lista_ing)));
-            fprintf(fp, "%d/%d/%d \n", get_fec_compra_dia(copy_lista(lista_ing)), get_fec_compra_mes(copy_lista(lista_ing)), get_fec_compra_anio(copy_lista(lista_ing)));
+            fprintf(fp, "Total: %.2f \n", get_total(copy_lista(lista_ing)));
+            fprintf(fp, "Fecha de compra: %d/%d/%d \n", get_fec_compra_dia(copy_lista(lista_ing)), get_fec_compra_mes(copy_lista(lista_ing)), get_fec_compra_anio(copy_lista(lista_ing)));
+
+            fprintf(fp, "Estado: ");
             switch(get_entregado(copy_lista(lista_ing))){
                 case 1:{
                     fprintf(fp, "ENTREGADO \n"); break;
@@ -953,7 +1022,10 @@ int export_pedidosxformpago(lista_pedidos lista_ing, int form_pago) // f-ll //im
                     fprintf(fp, "NO ENTREGADO \n");
                 }
             }
-            //fprintf(fp, "%d \n", get_cup_descuento(copy_lista(lista_ing)));
+            fprintf(fp, "Cupon de descuento: ");
+            if (get_cup_descuento(copy_lista(lista_ing)) == 1) fprintf(fp, "SI \n");
+            else fprintf(fp, "no \n");
+
             fprintf(fp, "---\n");
             contador += 1;
         }
@@ -1127,7 +1199,7 @@ void mostrar_comb_pedidos(int comb_pedidos[], int cup_descuento){
             printf("\n    -----------------------------------");
             printf("\n     ");
             printf("ID: %d | %s", i, muestradescripcion(combos_del_dia[i]));
-            if (muestradescuento(combos_del_dia[i]) == 1 && cup_descuento == 1) printf(" (15/% OFF)");
+            if (muestradescuento(combos_del_dia[i]) == 1 && cup_descuento == 1) printf(" (15% OFF)");
             printf("\n     ");
             printf("Unidades: %d | ", comb_pedidos[i]);
             printf("Precio Unid.: %.2f", muestraprecio(combos_del_dia[i]));
