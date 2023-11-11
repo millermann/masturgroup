@@ -447,10 +447,16 @@ int main()
                 break;
             }
 
-            case 4: {
-                reset_lista(&pedidos);
+            case 4: { // f-adic
                 system("cls");
-                if (isEmpty(pedidos)!=1){
+                printf("\n # # # #   M O S T R A R   T O D O S   L O S   P E D I D O S   # # # #\n");
+
+                reset_lista(&pedidos);
+                if (isEmpty(pedidos) == 1){
+                    printf("\n\a # No hay pedidos cargados en la base...");
+                    break;
+                }
+                else{
                     while(isOos(pedidos) != 1){
                         mostrar_pedido(copy_lista(pedidos));
                         printf("\n");
