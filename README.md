@@ -1,7 +1,7 @@
 # masturgroup
 	Entrega 14/11
 ### - Corregir:
-	mariano: a, b, c, e, l, ll, t.
+	mariano: .a, .b, .c, .e, .l, .ll, t.
  	chiche: n, f, g, i, j, m, ñ
 	elias: k, o, p, q, r, s, d
  
