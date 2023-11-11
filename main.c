@@ -410,18 +410,20 @@ int main()
 
             case 2: { // f-t
                 system("cls");
-                printf("\n Por favor ingrese el ID de vendedor: ");
+                printf("\n # # # #   C A M B I A R   V E N D E D O R   # # # #\n");
+                printf("\n - ID Vendedor actual: %d", var_glob_vend_id);
+                printf("\n\n - Por favor ingrese el ID del nuevo vendedor: ");
                 fflush(stdin);
                 check_resp = scanf("%d", &var_glob_vend_id);
                 while (var_glob_vend_id > 3 || var_glob_vend_id < 1 || check_resp != 1){
                     printf("\n\a # ID no valido (1 <= ID <= 3)...");
-                    printf("\n Por favor ingrese el ID de vendedor: ");
+                    printf("\n - Por favor ingrese el ID de vendedor: ");
                     fflush(stdin);
                     check_resp = scanf("%d", &var_glob_vend_id);
                 }
 
                 if (mod_vend_id(2) == 0){
-                    printf("\n # Vendedor cargado correctamente.");
+                    printf("\n # Vendedor sustituido correctamente...");
                 }
                 else printf("\n\a # No se pudo acceder a vend_id.txt");
 
