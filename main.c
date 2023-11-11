@@ -90,7 +90,7 @@ void muestra_pedxnomb(lista_pedidos l,char c[]){
                     printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
                     printf("el pedido de %s %s es:\n",get_nomb(aux),get_ape(aux));
                     mostrar_pedido(aux);
-                    printf(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
+                    printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
                     system("pause");
                     system("cls");
                     forward_lista(&l);
@@ -193,7 +193,7 @@ void mostrar_pecio_y_stock(combo arr[]){// f-q
 void muestra_por_mes(lista_pedidos l,int mes){//D
     pedido aux;
     int cont=0,i=0,j,n;
-    if(!isEmpty(l)){
+
         reset_lista(&l);
 
         while(!isOos(l)){
@@ -227,25 +227,25 @@ void muestra_por_mes(lista_pedidos l,int mes){//D
         }
 
         for(n=0;n<cont;n++){
-            mostrar_pedido(arr[i]);
+            mostrar_pedido(arr[n]);
         }
+        if(cont==0)
+            printf("No hay pedidos en ese mes.\n");
 
-    }
-    else
-        printf("No hay pedidos!\n");
     system("pause");
     system("cls");
  }
 
 void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing){// f-f
     // hacer un reset_lista en el main
-    if (isOos(lista_ing)!=1){
+    if (!isOos(lista_ing)){
         if (get_vend_id(copy_lista(lista_ing)) == vend_id_ing){
             printf("\n    ###################################");
             printf("\n     + Pedido ID: %s", get_pedido_id(copy_lista(lista_ing)));
             printf("\n    -----------------------------------");
             printf("\n     - Total: %.2f", get_total(copy_lista(lista_ing)));
             printf("\n    -----------------------------------\n");
+            boo6=1;
         }
         forward_lista(&lista_ing);
         mostrar_pedido_por_vendedor(lista_ing, vend_id_ing);
@@ -265,11 +265,11 @@ void muestra_ped_no_entregados(lista_pedidos l){// f-n //poner debajo de las otr
             forward_lista(&l);
         }
         if(boo==0)
-            printf("No hay pedidos sin entregar\n");
+            printf("\nNo hay pedidos sin entregar\n");
         else
-            printf("Todos los pedidos sin entregar mostrados\n");
+            printf("\nTodos los pedidos sin entregar mostrados\n");
     }
-    else printf("Lista vacía!\n");
+    else printf("No hay pedidos\n");
     system("pause");
     system("cls");
 }
@@ -346,6 +346,7 @@ int main()
             fflush(stdin);
             check_resp = scanf("%d", &var_glob_vend_id);
         }
+
         mod_vend_id(2);
         printf("\n # ID cargado correctamente.");
         printf("\n\n - Pulse para continuar..."); fflush(stdin); getchar();
@@ -447,46 +448,50 @@ int main()
                 break;
             }
 
-            case 4: { // f-adic
-                system("cls");
-                printf("\n # # # #   M O S T R A R   T O D O S   L O S   P E D I D O S   # # # #\n");
-
+            case 4: {
                 reset_lista(&pedidos);
-                if (isEmpty(pedidos) == 1){
-                    printf("\n\a # No hay pedidos cargados en la base...");
-                    break;
-                }
-                else{
+                system("cls");
+                if (isEmpty(pedidos)!=1){
                     while(isOos(pedidos) != 1){
                         mostrar_pedido(copy_lista(pedidos));
                         printf("\n");
                         forward_lista(&pedidos);
                     }
                 }
+                else
+                    printf("-No hay pedidos cargados");
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
 
             case 5://Mostrar todos los pedidos por mes
+                system("cls");
+                if(!isEmpty(pedidos)){
                 do{ printf("Ingrese numero de mes que desea mostrar: ");
                     scanf(" %d",&mes);
                 }while(mes<1||mes>12);
                 system("cls");
                 muestra_por_mes(pedidos,mes);
-
+                }
+                else
+                    printf("\n # No hay pedidos cargados en la base...");
                 break;
 
             case 6://Mostrar todos los pedidos por nombre.
-
+                system("cls");
+                if(!isEmpty(pedidos)){
                 printf("Ingrese nombre: ");
                 scanf(" %s",nomb);
                 system("cls");
 
                 muestra_pedxnomb(pedidos,nomb);
-
+                }
+                else
+                    printf("\n # No hay pedidos cargados en la base...");
                 break;
 
             case 7://NO se si está bien hecho //Mostrar todos los pedidos de un vendedor
+                system("cls");
                 if(!isEmpty(pedidos)){
                     int id_vendedor=-1;
                     boo6=0;
@@ -503,32 +508,42 @@ int main()
                     system("cls");
 
                     mostrar_pedido_por_vendedor(pedidos,id_vendedor);
+                    if(boo6==0)
+                        printf("No hay pedidos con ese vendedor\n");
 
                 }
                 else
-                    printf("No hay pedidos.\n");
+                    printf("\n # No hay pedidos cargados en la base...");
 
                 system("pause");
                 system("cls");
                 break;
             case 8: //Mostrar todos los pedidos no entregados
+                system("cls");
+                if(!isEmpty(pedidos)){
                 muestra_ped_no_entregados(pedidos);
+                }
+                else
+                    printf("\n # No hay pedidos cargados en la base...");
                 break;
             case 9://Mostrar todos los combos.
+                system("cls");
                 mostrar_combos(combos_del_dia);
                 system("pause");
                 system("cls");
                 break;
             case 10://Mostrar precio y stock de un combo por idcombo
+                system("cls");
                 mostrar_pecio_y_stock(combos_del_dia);
                 break;
 
             case 11://Mostrar los combos sin stock.
+                system("cls");
                 muestra_combos_sin_stock(combos_del_dia);
                 break;
 
             case 12://funcion del chiche a terminar//Informar cual es el vendedor que realizo mas pedidos en el mes.
-
+                system("cls");
                 if(!isEmpty(pedidos)){
 
                     do{
@@ -543,15 +558,13 @@ int main()
                     empleado_del_mes(pedidos,mes);
                 }
                 else
-                    printf("No hay pedidos cargados");
+                    printf("\n # No hay pedidos cargados en la base...");
                 system("pause");
                 system("cls");
-
-
                 break;
 
             case 13://Modificar el estado del pedido a entregado por idpedido.");
-
+                system("cls");
                 if(!isEmpty(pedidos)){
                     printf("Ingrese el ID del pedido: ");
                     scanf(" %s",id_pedido);
@@ -560,10 +573,11 @@ int main()
                     modificar_estado_por_id(&pedidos,id_pedido);
 
                 }
-                else printf("No hay pedidos.\n");
+                    printf("\n # No hay pedidos cargados en la base...");
                 break;
 
             case 14://Modificar la forma de pago de un pedido según su idpedido.
+                system("cls");
                 if(!isEmpty(pedidos)){
                 int form_pago;
                 do{
@@ -582,14 +596,14 @@ int main()
                     printf("No se encuentra un pedido con ese ID.\n");
                 }
                 else
-                    printf("No hay pedidos\n");
+                    printf("\n # No hay pedidos cargados en la base...");
                 system("pause");
                 system("cls");
                 //NO La entendi a la funcion
                 break;
 
             case 15://Modificar nombre de un pedido según su idpedido
-
+                system("cls");
                 if(!isEmpty(pedidos)){
                     printf("Ingrese el ID del pedido: ");
                     scanf(" %s",id_pedido);
@@ -598,11 +612,11 @@ int main()
                     modificar_nombre_por_id(&pedidos,id_pedido);
 
                 }
-                else printf("No hay pedidos.\n");
+                    printf("\n # No hay pedidos cargados en la base...");
                 break;
 
             case 16://Modificar precio y stock del combo según idcombo
-
+                    system("cls");
                     modifica_precio_y_stock_de_combo(combos_del_dia);
 
                 break;
@@ -647,8 +661,6 @@ int main()
             }
         }
     }
-
-
 
     return 7;
 }
