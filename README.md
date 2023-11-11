@@ -4,7 +4,7 @@
 	mariano: .a, .b, .c, .e, .l, .ll, t.
  	chiche: n, f, g, i, j, m, ñ
 	elias: k, o, p, q, r, s, d
- 
+### - http://proguno.unsl.edu.ar/pmi_2023.pdf
 ### - Cargar:
 	(a) Cargar un pedido en la lista por teclado. Debe respetar la posición de cada combo, ya que la posición es el código del mismo. En el caso de no tener en stock la cantidad del combo solicitada debe informarlo, indicando cuantos hay disponibles. Considere que el cálculo del total a pagar debe ser realizado al final de la carga del pedido y se debe mostrar el subtotal, costo delivery y total para confirmar el pedido.
 
