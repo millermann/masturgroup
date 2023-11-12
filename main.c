@@ -16,6 +16,7 @@ void cargar_pedido(lista_pedidos *lista_ing);
 void precarga_combos(combo combos_del_dia[]);
 void mostrar_pedido(pedido ped_ing);
 
+
 void empleado_del_mes(lista_pedidos l,int mes){
     pedido aux;
     int cont_vend1=0,cont_vend2=0,cont_vend3=0,auxd;
@@ -180,8 +181,9 @@ void muestra_combos(combo arr[]){
 void mostrar_pecio_y_stock(combo arr[]){// f-q
     int id;
     do{
-        printf("    Ingrese id del combo que quiere modificar: ");
+        printf("    Ingrese id del combo que quiere ver: ");
         scanf(" %d",&id);
+        fflush(stdin);
     }while(id<0||id>9);
     system("cls");
     printf("   -Id: %d\n",id);
@@ -219,7 +221,7 @@ void muestra_por_mes(lista_pedidos l,int mes){//D
 
         for(n=0;n<cont-1;n++){
             for(j=0;j<cont-1;j++){
-                if(get_fec_compra_mes(arr[j])>get_fec_compra_mes(arr[j+1])){
+                if(get_fec_compra_dia(arr[j])>get_fec_compra_dia(arr[j+1])){
                     aux=arr[j];
                     arr[j]=arr[j+1];
                     arr[j+1]=aux;
@@ -233,6 +235,7 @@ void muestra_por_mes(lista_pedidos l,int mes){//D
         if(cont==0)
             printf("No hay pedidos en ese mes.\n");
 
+    printf("\n");
     system("pause");
     system("cls");
 }
@@ -546,6 +549,7 @@ int main()
             case 9://Mostrar todos los combos.
                 system("cls");
                 mostrar_combos(combos_del_dia);
+                printf("\n");
                 system("pause");
                 system("cls");
                 break;
@@ -571,12 +575,12 @@ int main()
                         printf("Mes ingresado incorrecto!\n");
                         system("pause");
                         system("cls");
-                    }
+                        }
                     } while(mes<1||mes>12);
                     empleado_del_mes(pedidos,mes);
                 }
                 else
-                    printf("\n # No hay pedidos cargados en la base...");
+                    printf("\n # No hay pedidos cargados en la base...\n");
                 system("pause");
                 system("cls");
                 break;
@@ -630,7 +634,9 @@ int main()
                     modificar_nombre_por_id(&pedidos,id_pedido);
 
                 }
-                    printf("\n # No hay pedidos cargados en la base...");
+                else
+                    printf("\n # No hay pedidos cargados en la base...\n");
+                system("pause");
                 break;
             }
             case 16:{//Modificar precio y stock del combo según idcombo
@@ -668,7 +674,6 @@ int main()
                             strcpy(nombre_archivo, "pedidos_export.txt");
                         }
                         export_pedido(copy_lista(pedidos), nombre_archivo);
-                        actualizar_combos_stock(combos_del_dia, get_comb_pedidos(copy_lista(pedidos)), 2);
                         supress_lista(&pedidos);
                         system("cls");
                         printf("\n # # # #   A N U L A R   Y   E X P O R T A R   P O R   I D   P E D I D O   # # # #\n");
@@ -932,7 +937,7 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
 
         if (pedido_confirm == 1){
             insert_lista(lista_ing, pre_carga);
-            actualizar_combos_stock(combos_del_dia, get_comb_pedidos(pre_carga), 1);
+            actualizar_combos_stock(combos_del_dia, get_comb_pedidos(pre_carga));
             printf("\n - Se ha cargado el pedido...\n");
         }
         system("cls");
@@ -1139,7 +1144,7 @@ void import_pedidos(lista_pedidos *lista_ing) // f-m
             insert_lista(lista_ing, nuevo_pedido);
             mostrar_pedido(copy_lista(*lista_ing));
             */
-            if (actualizar_combos_stock(combos_del_dia, get_comb_pedidos(nuevo_pedido), 1) == 0){
+            if (actualizar_combos_stock(combos_del_dia, get_comb_pedidos(nuevo_pedido)) == 0){
                 insert_lista(lista_ing, nuevo_pedido);
                 mostrar_pedido(copy_lista(*lista_ing));
             }
