@@ -92,17 +92,26 @@ float calcular_subtotal_combos(combo combos_ing[], int comb_pedidos[], int cupon
     return suma_total;
 }
 
-int actualizar_combos_stock(combo menu_combos[], int comb_pedidos[]){
+int actualizar_combos_stock(combo menu_combos[], int comb_pedidos[], int opcion){ // 1= quitar stock, 2=devolver stock
     int i, stock_actual=0;
 
-    for (i=0; i<num_combos; i++){ // controla q en todas las unidades pedidos < stock del combo
-        if ((muestrastock(menu_combos[i]) - comb_pedidos[i])<0) return 1;
+    if (opcion == 1){
+        for (i=0; i<num_combos; i++){ // controla q en todas las unidades pedidos < stock del combo
+            if ((muestrastock(menu_combos[i]) - comb_pedidos[i])<0) return 1;
+        }
+        for (i=0; i<num_combos; i++){
+            stock_actual = (muestrastock(menu_combos[i]) - comb_pedidos[i]);
+            cargastock(&menu_combos[i], stock_actual);
+        }
     }
 
-    for (i=0; i<num_combos; i++){
-        stock_actual = (muestrastock(menu_combos[i]) - comb_pedidos[i]);
-        cargastock(&menu_combos[i], stock_actual);
+    else{
+        for (i=0; i<num_combos; i++){
+            stock_actual = (muestrastock(menu_combos[i]) + comb_pedidos[i]);
+            cargastock(&menu_combos[i], stock_actual);
+        }
     }
+
     return 0;
 }
 #endif // COMBO_H_INCLUDE
