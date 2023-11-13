@@ -86,7 +86,7 @@ int main()
     while (opcion != 0)
     {
         system("cls");
-        printf("\n # # # #  M E N U  # # # #\n");
+        printf("\n # # # # # # # #   M E N U   # # # # # # # #\n");
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
         //funciones de cargar y modificar
         printf("\n  (1) Cargar pedido");
@@ -103,15 +103,12 @@ int main()
         printf("\n  (10) Mostrar precio y stock de un combo por idcombo.");
         printf("\n  (11) Mostrar los combos sin stock.");
         printf("\n  (12) Informar cual es el vendedor que realizo mas pedidos en el mes.");
-
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
         //funciones de modificaciones
         printf("\n  (13) Modificar el estado del pedido a entregado por idpedido.");
         printf("\n  (14) Modificar la forma de pago de un pedido según su idpedido.");
         printf("\n  (15) Modificar nombre de un pedido según su idpedido");
         printf("\n  (16) Modificar precio y stock del combo según idcombo");
-
-
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ");
         //funciones de archivos
         printf("\n  (17) Cargar pedidos por archivo");
@@ -517,7 +514,7 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
 {
     pedido pre_carga;
     init_pedido(&pre_carga);
-    int pedido_confirm=-1, check_resp=0;
+    int pedido_confirm=-1, check_resp=0, fecha_ok=0;
 
     while (pedido_confirm != 1)
     {
@@ -613,24 +610,31 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
                 break;
             }
             case 2:{
-                printf("\n - Ingrese fecha de compra:");
-                printf("\n\t + Dia: "); check_resp = scanf("%d", &num_ing1);
-                while (num_ing1 < fecha_actual->tm_mday || num_ing1 > 31 || check_resp != 1){
-                    printf("\n\a  # Dia ingresado no valido...");
-                    printf("\n\t + Dia: ");
-                    fflush(stdin);
-                    check_resp = scanf("%d", &num_ing1);
+                while (fecha_ok == 0){
+                    printf("\n - Ingrese fecha de compra:");
+                    printf("\n\t + Dia: "); check_resp = scanf("%d", &num_ing1);
+                    while (num_ing1 < 0 || num_ing1 > 31 || check_resp != 1){
+                        printf("\n\a  # Dia ingresado no valido...");
+                        printf("\n\t + Dia: ");
+                        fflush(stdin);
+                        check_resp = scanf("%d", &num_ing1);
+                    }
+
+                    printf("\n\t + Mes: "); check_resp = scanf("%d", &num_ing2);
+                    while (num_ing2 < (fecha_actual->tm_mon)+1 || num_ing2 > 12 || check_resp != 1){
+                        printf("\n\a # Mes ingresado no valido...");
+                        printf("\n\t + Mes: ");
+                        fflush(stdin);
+                        check_resp = scanf("%d", &num_ing2);
+                    }
+
+                    if (num_ing2 == (fecha_actual->tm_mon)+1 && num_ing1 < fecha_actual->tm_mday){
+                        printf("\n\a # La fecha no puede ser menor a la actual...");
+                    }
+                    else fecha_ok = 1;
                 }
                 set_fec_compra_dia(&pre_carga, num_ing1);
-
-                printf("\n\t + Mes: "); check_resp = scanf("%d", &num_ing1);
-                while (num_ing1 < (fecha_actual->tm_mon)+1 || num_ing1 > 12 || check_resp != 1){
-                    printf("\n\a # Mes ingresado no valido...");
-                    printf("\n\t + Mes: ");
-                    fflush(stdin);
-                    check_resp = scanf("%d", &num_ing1);
-                }
-                set_fec_compra_mes(&pre_carga, num_ing1);
+                set_fec_compra_mes(&pre_carga, num_ing2);
 
                 printf("\n\t + Anio: "); check_resp = scanf("%d", &num_ing1);
                 while (num_ing1 < (fecha_actual->tm_year)+1900 || check_resp != 1){
@@ -712,7 +716,7 @@ int contar_pedidos_vend(lista_pedidos lista_ing, int vend_id_ing, int n) // f-g
     else return n;
 }
 
-void empleado_del_mes(lista_pedidos l, int mes)
+void empleado_del_mes(lista_pedidos l, int mes) // f-s
 {
     pedido aux;
     int cont_vend1 = 0, cont_vend2 = 0, cont_vend3 = 0;
@@ -788,7 +792,6 @@ void empleado_del_mes(lista_pedidos l, int mes)
         }
     }
 }
-
 
 void export_pedido(pedido ped_ing, char nombre_del_archivo[]) // f-l //implementar en el main
 {
@@ -1049,7 +1052,7 @@ int mod_form_pago_pedido(lista_pedidos *lista_ing, char id_pedido[], int formpag
     else return 1;
 }
 
-void modificar_nombre_por_id(lista_pedidos *l,char n[]){
+void modificar_nombre_por_id(lista_pedidos *l,char n[]){ // f-k
     int boo=0;
     if(!isEmpty(*l)){
         char str_ing1[strsize], str_ing2[strsize];
@@ -1080,7 +1083,7 @@ void modificar_nombre_por_id(lista_pedidos *l,char n[]){
     else printf("Lista vacía!\n");
 }
 
-void modifica_precio_y_stock_de_combo(combo arr[]){
+void modifica_precio_y_stock_de_combo(combo arr[]){ // f-o
     int id,stock;
     float precio;
     do{
@@ -1100,7 +1103,7 @@ void modifica_precio_y_stock_de_combo(combo arr[]){
     }while(stock<0);
 }
 
-int mod_vend_id(void){
+int mod_vend_id(void){ // f-t
     char nomb_archiv_menu_guardada[strsize]; int basura;
     FILE *fp = fopen("usuario.data", "r+");
     if (fp == NULL) return 1;
