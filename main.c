@@ -4,7 +4,6 @@
 #include "combo.h"
 #include "pedido.h"
 #include "lista.h"
-#include "main.h"
 
 int var_glob_vend_id;
 char nomb_archiv_menu[strsize];
