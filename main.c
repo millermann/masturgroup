@@ -669,6 +669,8 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
         if (get_consum_local(pre_carga) == 0) monto += costo_delivery;
         set_total(&pre_carga, monto);
 
+        system("cls");
+        
         mostrar_pedido(pre_carga);
 
         printf("\n\n # Desea confirmar el pedido?... (1=si / 0=no): ");
@@ -713,7 +715,7 @@ int contar_pedidos_vend(lista_pedidos lista_ing, int vend_id_ing, int n) // f-g
 void empleado_del_mes(lista_pedidos l, int mes)
 {
     pedido aux;
-    int cont_vend1 = 0, cont_vend2 = 0, cont_vend3 = 0, auxd;
+    int cont_vend1 = 0, cont_vend2 = 0, cont_vend3 = 0, auxd=0;
     reset_lista(&l);
     while (!isOos(l))
     {
@@ -741,50 +743,52 @@ void empleado_del_mes(lista_pedidos l, int mes)
             forward_lista(&l);
         }
     }
-    if ((cont_vend1 > cont_vend2) && cont_vend1 > cont_vend3)
-    {
-        printf("El empleado 1 es el que mas vendio en el mes\n");
-        auxd = 1;
-    }
-    else
-    {
-        if ((cont_vend2 > cont_vend1) && cont_vend2 > cont_vend3)
-        {
-            printf("El empleado 2 es el que mas vendio en el mes\n");
-            auxd = 2;
-        }
-        else
-        {
-            printf("El empleado 3 es el que mas vendio en el mes\n");
-            auxd = 3;
-        }
-    }
+
     if ((cont_vend1 == cont_vend2) && (cont_vend1 == cont_vend3))
     {
-        printf("Los tres empleados tienen la misma cantidad de pedidos realizados\n");
+        printf(" Los tres empleados tienen la misma cantidad de pedidos realizados\n");
     }
     else
     {
-        if (cont_vend1 == cont_vend2 && auxd != 3)
+        if (cont_vend1 == cont_vend2 && cont_vend1>cont_vend3)
         {
-            printf("¡Empleado 1 y empleado 2 son los empleados del mes!\n");
+            printf(" Empleado 1 y empleado 2 son los empleados del mes!\n");
         }
         else
         {
-            if (cont_vend3 == cont_vend2 && auxd != 1)
+            if (cont_vend3 == cont_vend2 && cont_vend3>cont_vend1)
             {
-                    printf("¡Empleado 2 y empleado 3 son los empleados del mes!\n");
+                    printf(" Empleado 2 y empleado 3 son los empleados del mes!\n");
             }
             else
             {
-                    if (cont_vend1 == cont_vend3 && auxd != 2)
+                    if (cont_vend1 == cont_vend3 && cont_vend1>cont_vend2)
                     {
-                        printf("¡Empleado 1 y empleado 3 son los empleados del mes!\n");
+                        printf(" Empleado 1 y empleado 3 son los empleados del mes!\n");
+                    }
+                    else{
+
+                         if ((cont_vend1 > cont_vend2) && cont_vend1 > cont_vend3)
+                        {
+                            printf(" El empleado 1 es el que mas vendio en el mes\n");
+                        }
+                        else
+                        {
+                            if ((cont_vend2 > cont_vend1) && cont_vend2 > cont_vend3)
+                            {
+                                printf(" El empleado 2 es el que mas vendio en el mes\n");
+                            }
+                            else
+                            {
+                                printf(" El empleado 3 es el que mas vendio en el mes\n");
+                            }
+                        }
                     }
             }
         }
     }
 }
+
 
 void export_pedido(pedido ped_ing, char nombre_del_archivo[]) // f-l //implementar en el main
 {
