@@ -79,7 +79,7 @@ int main()
             printf("\n\n - Pulse para continuar..."); fflush(stdin); getchar();
         }
     }
-   
+
     ahora = time(NULL);
     fecha_actual = localtime(&ahora);
 
@@ -156,7 +156,7 @@ int main()
                 else printf("\n\a # No se pudo acceder a prog_data");
 
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
-        
+
                 /*
                 system("cls");
                 printf("\n # # # #   C A M B I A R   V E N D E D O R   # # # #\n");
@@ -272,7 +272,7 @@ int main()
                     int id_vendedor = -1;
                     boo6 = 0;
                     reset_lista(&pedidos);
-                    
+
                     printf(" - Ingrese ID del vendedor: "); // quizas mostrar los id
                     check_resp = scanf("%d", &id_vendedor);
                     while (id_vendedor < 1 || id_vendedor > 3 || check_resp != 1){
@@ -324,7 +324,7 @@ int main()
             case 12:{//funcion del chiche a terminar//Informar cual es el vendedor que realizo mas pedidos en el mes.
                 system("cls");
                 printf("\n # # # #   V E N D E D O R   D E L   M E S   # # # #\n");
-                
+
                 if(!isEmpty(pedidos)){
                     printf("\n - Ingrese el mes: ");
                     fflush(stdin);
@@ -571,7 +571,7 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
             }
         }
         system("cls");
-        printf(" # # # #   C A R G A R   D A T O S   # # # #\n");
+        printf("\n # # # #   C A R G A R   D A T O S   # # # #\n");
 
         printf("\n - Consume en el local? (1=si / 0=no): ");
         check_resp = scanf("%d", &num_ing1);
@@ -1151,7 +1151,7 @@ void mostrar_combos(combo combos_ing[]){ // f-p
 void mostrar_precio_y_stock(combo arr[]){// f-q
     int id, check_resp;
     system("cls");
-    printf("\n # # # #   P R E C I O   Y   S T O C K   # # # #\n"); 
+    printf("\n # # # #   P R E C I O   Y   S T O C K   # # # #\n");
     printf("\n - Ingrese el ID del combo: ");
     fflush(stdin);
     check_resp = scanf("%d", &id);
@@ -1162,10 +1162,12 @@ void mostrar_precio_y_stock(combo arr[]){// f-q
         check_resp = scanf("%d", &id);
     }
     system("cls");
-    printf("\n # # # #   P R E C I O   Y   S T O C K   # # # #\n"); 
+    printf("\n # # # #   P R E C I O   Y   S T O C K   # # # #\n");
+    printf("\n\n ---------------------------------");
     printf("   + Id: %d\n",id);
     printf("      - Stock: %d.\n",muestrastock(arr[id]));
     printf("      - Precio: %.2f.\n",muestraprecio(arr[id]));
+    printf("\n\n ---------------------------------");
 }
 
 void mostrar_pedido(pedido ped_ing)
@@ -1339,7 +1341,7 @@ int precarga_combos(combo combos_del_dia[], char nombre_del_archivo[]) // f-enie
     char descripcion[descrip_size], separador[strsize];
     int id_combo_scan, stock, descuento;
     float preciounit;
-    
+
 
     while(feof(archivo_combos) == 0)
     {
