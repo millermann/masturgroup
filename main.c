@@ -674,6 +674,7 @@ int main()
                             strcpy(nombre_archivo, "pedidos_export.txt");
                         }
                         export_pedido(copy_lista(pedidos), nombre_archivo);
+                        actualizar_combos_stock(combos_del_dia, get_comb_pedidos(copy_lista(pedidos)), 2);
                         supress_lista(&pedidos);
                         system("cls");
                         printf("\n # # # #   A N U L A R   Y   E X P O R T A R   P O R   I D   P E D I D O   # # # #\n");
@@ -937,7 +938,7 @@ void cargar_pedido(lista_pedidos *lista_ing) // f-a
 
         if (pedido_confirm == 1){
             insert_lista(lista_ing, pre_carga);
-            actualizar_combos_stock(combos_del_dia, get_comb_pedidos(pre_carga));
+            actualizar_combos_stock(combos_del_dia, get_comb_pedidos(pre_carga), 1);
             printf("\n - Se ha cargado el pedido...\n");
         }
         system("cls");
@@ -1144,7 +1145,7 @@ void import_pedidos(lista_pedidos *lista_ing) // f-m
             insert_lista(lista_ing, nuevo_pedido);
             mostrar_pedido(copy_lista(*lista_ing));
             */
-            if (actualizar_combos_stock(combos_del_dia, get_comb_pedidos(nuevo_pedido)) == 0){
+            if (actualizar_combos_stock(combos_del_dia, get_comb_pedidos(nuevo_pedido), 1) == 0){
                 insert_lista(lista_ing, nuevo_pedido);
                 mostrar_pedido(copy_lista(*lista_ing));
             }
