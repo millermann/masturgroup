@@ -8,6 +8,7 @@
 
 #define descrip_size 100
 #define val_descuento 15
+
 typedef struct{
     int id_combo;
     char descripcion[descrip_size];
@@ -15,6 +16,17 @@ typedef struct{
     float preciounit;
     int descuento;
 } combo;
+
+void init_combos_default(combo menu_combos[]){
+    int i;
+    for (i=0; i<num_combos; i++){
+        menu_combos[i].id_combo = i;
+        strcpy(menu_combos[i].descripcion, "DEFAULT");
+        menu_combos[i].stock = 0;
+        menu_combos[i].preciounit = 0;
+        menu_combos[i].descuento = 0;
+    }
+}
 
 void cargaid(combo *comb_ing, int ide)
 {
