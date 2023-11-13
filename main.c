@@ -715,7 +715,7 @@ int contar_pedidos_vend(lista_pedidos lista_ing, int vend_id_ing, int n) // f-g
 void empleado_del_mes(lista_pedidos l, int mes)
 {
     pedido aux;
-    int cont_vend1 = 0, cont_vend2 = 0, cont_vend3 = 0, auxd=0;
+    int cont_vend1 = 0, cont_vend2 = 0, cont_vend3 = 0;
     reset_lista(&l);
     while (!isOos(l))
     {
