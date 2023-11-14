@@ -7,7 +7,7 @@
 
 int var_glob_vend_id;
 char nomb_archiv_menu[strsize];
-int boo6=0;
+
 combo combos_del_dia[num_combos];
 
 time_t ahora;
@@ -29,7 +29,7 @@ void mostrar_comb_pedidos(int comb_pedidos[], int cup_descuento);
 void mostrar_combos(combo combos_ing[]);
 void mostrar_precio_y_stock(combo arr[]);
 void mostrar_pedido(pedido ped_ing);
-void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing);
+void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing,int *x);
 void muestra_combos_sin_stock(combo combos_ing[]);
 void muestra_ped_no_entregados(lista_pedidos l);
 int muestra_pedxnomb(lista_pedidos l, char c[]);
@@ -105,7 +105,6 @@ int actualizar_combos_stock(combo menu_combos[], int comb_pedidos[], int opcion)
     }
     return 0;
 }
-
 
 int main()
 {
@@ -185,13 +184,15 @@ int main()
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
         printf("\n  [18]  Cambiar al vendedor.");
         printf("\n  [19]  Informar cual es el vendedor que realizo mas pedidos en el mes.");
+        printf("\n  [20]  Contar pedidos por vendedor.");
         printf("\n - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+
         printf("\n  [0]  Salir.");
         printf("\n\n + Resp.: ");
 
         fflush(stdin);
         check_resp = scanf("%d", &opcion);
-        while(opcion>19 || opcion<0 || check_resp!=1){
+        while(opcion>20 || opcion<0 || check_resp!=1){
             printf("\n\a # Respuesta invalida...");
             printf("\n\n + Resp: ");
             fflush(stdin);
@@ -312,7 +313,7 @@ int main()
                 if (!isEmpty(pedidos))
                 {
                     int id_vendedor = -1;
-                    boo6 = 0;
+                    int boo=0 ;
                     reset_lista(&pedidos);
 
                     printf(" - Ingrese ID del vendedor: "); // quizas mostrar los id
@@ -324,8 +325,8 @@ int main()
                         check_resp = scanf("%d", &id_vendedor);
                     }
                     system("cls");
-                    mostrar_pedido_por_vendedor(pedidos, id_vendedor);
-                    if (boo6 == 0)
+                    mostrar_pedido_por_vendedor(pedidos, id_vendedor,&boo);
+                    if (boo == 0)
                         printf("\n # No hay pedidos con ese vendedor\n");
                 }
                 else printf("\n # No hay pedidos cargados en la base...");
@@ -575,6 +576,31 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
+
+            case 20:{
+                system("cls");
+                if(!isEmpty(pedidos)){
+                    int total, id;
+
+                    printf("\n - Ingrese el vendedor: ");
+                    check_resp = scanf("%d", &id);
+                    while (id < 0 || id > 3 || check_resp != 1){
+                        printf("\n\a # Respuesta invalida... ");
+                        printf("\n - Ingrese el vendedor: ");
+                        check_resp = scanf("%d", &id);
+                    }
+                    system("cls");
+
+                    total=contar_pedidos_vend(pedidos,id,0);
+
+                    printf("\n -Total de pedidos por el vendedor %d: %d.",id,total);
+                }
+                else printf("\n # No hay pedidos cargados en la base...\n");
+                printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
+                break;
+
+            }
+
         }
     }
     return 7;
@@ -1291,20 +1317,20 @@ void mostrar_pedido(pedido ped_ing)
     else printf("No Entregado.");
 }
 
-void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing){// f-f
+void mostrar_pedido_por_vendedor(lista_pedidos lista_ing, int vend_id_ing,int *x){// f-f
     // hacer un reset_lista en el main
     if (isOos(lista_ing)!=1){
         if (get_vend_id(copy_lista(lista_ing)) == vend_id_ing){
-            printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   N O M B R E   # # # #\n");
+            printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   V E N D E D O R   # # # #\n");
             printf("\n    ###################################");
             printf("\n     + Pedido ID: %s", get_pedido_id(copy_lista(lista_ing)));
             printf("\n    -----------------------------------");
             printf("\n     - Total: $ %.2f", get_total(copy_lista(lista_ing)));
             printf("\n    -----------------------------------\n");
-             boo6=1;
+            *x=1;
         }
         forward_lista(&lista_ing);
-        mostrar_pedido_por_vendedor(lista_ing, vend_id_ing);
+        mostrar_pedido_por_vendedor(lista_ing, vend_id_ing,x);
     }
 }
 

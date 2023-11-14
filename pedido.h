@@ -198,30 +198,4 @@ void copy_pedido(pedido *ped1, pedido ped2) // fun. adic.
     *ped1=ped2;
 }
 
-char *gen_pedido_id(void)
-{
-    int i, min_val, max_val;
-    char id_gen[idsize];
-    char *aux = (char*)malloc(sizeof(char)*idsize);
-
-    srand(time(0));
-
-    min_val=65, max_val=90; // 65=A y 90=Z
-    for (i=0; i<=3; i++)
-    {
-        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
-    }
-    
-    min_val=48, max_val=57; // 48=0 y 57=9
-    for (i=4; i<=idsize; i++)
-    {
-        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
-    }
-    
-    id_gen[idsize]='\0';
-
-    strcpy(aux, id_gen);
-    return aux;
-}
-
 #endif // PEDIDO_H_INCLUDED

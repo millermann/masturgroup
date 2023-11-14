@@ -85,45 +85,7 @@ int muestradescuento(combo comb_ing)
     return comb_ing.descuento;
 }
 
-float calcular_subtotal_combos(combo combos_ing[], int comb_pedidos[], int cupon_descuento)
-{
-    int i; float monto_indiv, suma_total=0;
 
-    for (i=0; i<num_combos; i++)
-    {
-        monto_indiv = 0;
 
-        monto_indiv = ((combos_ing[i].preciounit) * (comb_pedidos[i]));
-        if (cupon_descuento == 1){
-            if (combos_ing[i].descuento == 1){
-                monto_indiv -= ((val_descuento*monto_indiv)/100);
-            }
-        }
-        suma_total += monto_indiv;
-    }
-    return suma_total;
-}
 
-int actualizar_combos_stock(combo menu_combos[], int comb_pedidos[], int opcion){ // 1= quitar stock, 2=devolver stock
-    int i, stock_actual=0;
-
-    if (opcion == 1){
-        for (i=0; i<num_combos; i++){ // controla q en todas las unidades pedidos < stock del combo
-            if ((muestrastock(menu_combos[i]) - comb_pedidos[i])<0) return 1;
-        }
-        for (i=0; i<num_combos; i++){
-            stock_actual = (muestrastock(menu_combos[i]) - comb_pedidos[i]);
-            cargastock(&menu_combos[i], stock_actual);
-        }
-    }
-
-    else{
-        for (i=0; i<num_combos; i++){
-            stock_actual = (muestrastock(menu_combos[i]) + comb_pedidos[i]);
-            cargastock(&menu_combos[i], stock_actual);
-        }
-    }
-
-    return 0;
-}
 #endif // COMBO_H_INCLUDE
