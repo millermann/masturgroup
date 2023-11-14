@@ -37,6 +37,76 @@ void muestra_por_mes(lista_pedidos l, int mes);
 int precarga_combos(combo combos_del_dia[], char nombre_del_archivo[]);
 int user_data(int opcion);
 
+// funciones corregidas
+char *gen_pedido_id(void)
+{
+    int i, min_val, max_val;
+    char id_gen[idsize];
+    char *aux = (char*)malloc(sizeof(char)*idsize);
+
+    srand(time(0));
+
+    min_val=65, max_val=90; // 65=A y 90=Z
+    for (i=0; i<=3; i++)
+    {
+        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
+    }
+
+    min_val=48, max_val=57; // 48=0 y 57=9
+    for (i=4; i<=idsize; i++)
+    {
+        id_gen[i] = (rand() % (max_val-min_val+1) + min_val);
+    }
+
+    id_gen[idsize]='\0';
+
+    strcpy(aux, id_gen);
+    return aux;
+}
+
+float calcular_subtotal_combos(combo combos_ing[], int comb_pedidos[], int cupon_descuento)
+{
+    int i; float monto_indiv, suma_total=0;
+
+    for (i=0; i<num_combos; i++)
+    {
+        monto_indiv = 0;
+
+        monto_indiv = (muestraprecio(combos_ing[i]) * (comb_pedidos[i]));
+        if (cupon_descuento == 1){
+            if (muestradescuento(combos_ing[i]) == 1){
+                monto_indiv -= ((val_descuento*monto_indiv)/100);
+            }
+        }
+        suma_total += monto_indiv;
+    }
+    return suma_total;
+}
+
+int actualizar_combos_stock(combo menu_combos[], int comb_pedidos[], int opcion) // 1= quitar stock, 2=devolver stock
+{
+    int i, stock_actual=0;
+
+    if (opcion == 1){
+        for (i=0; i<num_combos; i++){ // controla q en todas las unidades pedidos < stock del combo
+            if ((muestrastock(menu_combos[i]) - comb_pedidos[i]) < 0) return 1;
+        }
+        for (i=0; i<num_combos; i++){
+            stock_actual = (muestrastock(menu_combos[i]) - comb_pedidos[i]);
+            cargastock(&menu_combos[i], stock_actual);
+        }
+    }
+
+    else{
+        for (i=0; i<num_combos; i++){
+            stock_actual = (muestrastock(menu_combos[i]) + comb_pedidos[i]);
+            cargastock(&menu_combos[i], stock_actual);
+        }
+    }
+    return 0;
+}
+
+
 int main()
 {
     int opcion=-1, check_resp=0, mes;
@@ -216,7 +286,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 7:{ // f-c
                 char id_pedido_ing[strsize];
                 system("cls");
@@ -263,7 +333,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 9:{ // f-e, Mostrar todos los pedidos por nombre.
                 system("cls");
                 printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   N O M B R E   # # # #\n");
@@ -287,7 +357,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 10:{ // f-d, Mostrar todos los pedidos por mes, no anda
                 system("cls");
                 printf("\n # # # #   M O S T R A R   P E D I D O S   P O R   M E S   # # # #\n");
@@ -319,7 +389,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 12: { // f-l, Anular y exportar por id pedido
                 system("cls");
                 printf("\n # # # #   A N U L A R   Y   E X P O R T A R   P O R   I D   P E D I D O   # # # #\n");
@@ -370,7 +440,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 13:{ // f-ll, Exportar pedido por form_pago
                 int form_pago, resultado;
 
@@ -430,7 +500,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 17:{ //Modificar precio y stock del combo segun idcombo
                 system("cls");
                 printf("\n # # # #   M O D I F I C A   P R E C I O   Y   S T O C K   S E G U N   C O M B O   # # # #\n");
@@ -438,7 +508,7 @@ int main()
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
             }
-            
+
             case 18:{ // f-t
                 system("cls");
                 printf("\n # # # #   C A M B I A R   V E N D E D O R   # # # #\n");
@@ -483,7 +553,7 @@ int main()
                 */
                 break;
             }
-                       
+
             case 19:{ //Informar cual es el vendedor que realizo mas pedidos en el mes.
                 system("cls");
                 printf("\n # # # #   V E N D E D O R   D E L   M E S   # # # #\n");
@@ -504,7 +574,7 @@ int main()
                 else printf("\n # No hay pedidos cargados en la base...\n");
                 printf("\n\n - Pulse para volver al menu..."); fflush(stdin); getchar();
                 break;
-            } 
+            }
         }
     }
     return 7;
@@ -1033,7 +1103,7 @@ void modificar_estado_por_id(lista_pedidos *l, char n[]){ // f-i
     if(boo==0) printf("\n\a # No hay pedidos con ese ID");
 }
 
-void mod_form_pago_pedido(lista_pedidos *lista_ing, int formpago_ing) // f-j 
+void mod_form_pago_pedido(lista_pedidos *lista_ing, int formpago_ing) // f-j
 {
     pedido aux;
     aux = copy_lista(*lista_ing);
